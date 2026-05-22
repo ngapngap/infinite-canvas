@@ -14,8 +14,8 @@ export function CanvasPromptLibrary({ onSelect }: { onSelect: (prompt: string) =
 
   return (
     <>
-      <Tooltip title="提示词库">
-        <Button shape="circle" className="!h-8 !w-8 !min-w-8 shrink-0 !bg-transparent" style={{ borderColor: theme.node.stroke, color: theme.node.text }} icon={<BookOpen className="size-3.5" />} onClick={() => setOpen(true)} aria-label="提示词库" />
+      <Tooltip title="Thư viện Prompt">
+        <Button shape="circle" className="!h-8 !w-8 !min-w-8 shrink-0 !bg-transparent" style={{ borderColor: theme.node.stroke, color: theme.node.text }} icon={<BookOpen className="size-3.5" />} onClick={() => setOpen(true)} aria-label="Thư viện Prompt" />
       </Tooltip>
       <PromptSelectDialog open={open} onOpenChange={setOpen} onSelect={onSelect} />
     </>

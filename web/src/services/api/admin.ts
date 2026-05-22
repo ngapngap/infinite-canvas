@@ -135,7 +135,7 @@ export async function fetchChannelModels(channel: Pick<AdminModelChannel, "baseU
       .filter((id): id is string => Boolean(id))
       .sort((a, b) => a.localeCompare(b));
   } catch (error) {
-    throw new Error(readChannelError(error, "读取模型失败"));
+    throw new Error(readChannelError(error, "Không thể tải danh sách mô hình"));
   }
 }
 
@@ -148,7 +148,7 @@ export async function testChannelModel(channel: Pick<AdminModelChannel, "baseUrl
     );
     return response.data.choices?.[0]?.message?.content || "ok";
   } catch (error) {
-    throw new Error(readChannelError(error, "测试失败"));
+    throw new Error(readChannelError(error, "Kiểm tra thất bại"));
   }
 }
 

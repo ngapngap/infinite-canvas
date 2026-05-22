@@ -48,7 +48,7 @@ export function CanvasConfigNodePanel({ node, isRunning, inputSummary, inputs, o
     const next = [...inputs];
     [next[index], next[targetIndex]] = [next[targetIndex], next[index]];
     onConfigChange(node.id, { inputOrder: next.map((input) => input.nodeId) });
-    message.success("已调整输入顺序");
+    message.success("Đã điều chỉnh thứ tự đầu vào");
   };
   const startTextEdit = (input: NodeGenerationInput) => {
     setEditingTextId(input.nodeId);
@@ -59,13 +59,13 @@ export function CanvasConfigNodePanel({ node, isRunning, inputSummary, inputs, o
     onTextInputChange(editingTextId, editingText);
     setEditingText("");
     setEditingTextId(null);
-    message.success("已保存文本提示词");
+    message.success("Đã lưu prompt văn bản");
   };
 
   return (
     <div className="flex h-full w-full cursor-move flex-col px-3 pb-3 pt-7 text-sm" style={{ color: theme.node.text }} onWheel={(event) => event.stopPropagation()}>
       <div className="mb-2 flex items-center justify-between gap-3">
-        <div className="shrink-0 text-sm font-semibold">生成配置</div>
+        <div className="shrink-0 text-sm font-semibold">Cấu hình tạo ảnh</div>
         <div className="cursor-default" onMouseDown={(event) => event.stopPropagation()}>
           <Segmented
             size="small"
@@ -73,16 +73,16 @@ export function CanvasConfigNodePanel({ node, isRunning, inputSummary, inputs, o
             value={mode}
             onChange={(value) => onConfigChange(node.id, { generationMode: value as CanvasGenerationMode })}
             options={[
-              { value: "image", label: <span className="inline-flex items-center gap-1"><ImageIcon className="size-3.5" />生图</span> },
-              { value: "text", label: <span className="inline-flex items-center gap-1"><MessageSquare className="size-3.5" />文本</span> },
+              { value: "image", label: <span className="inline-flex items-center gap-1"><ImageIcon className="size-3.5" />Tạo ảnh</span> },
+              { value: "text", label: <span className="inline-flex items-center gap-1"><MessageSquare className="size-3.5" />Văn bản</span> },
             ]}
           />
         </div>
       </div>
 
       <div className="mb-2 flex flex-wrap gap-1.5" onMouseDown={(event) => event.stopPropagation()}>
-        <InputChip label="提示词" value={`${inputSummary.textCount} 个`} style={chipStyle} />
-        <InputChip label="参考图" value={`${inputSummary.imageCount} 张`} style={chipStyle} />
+        <InputChip label="Prompt" value={`${inputSummary.textCount} mục`} style={chipStyle} />
+        <InputChip label="Ảnh tham chiếu" value={`${inputSummary.imageCount} ảnh`} style={chipStyle} />
         <button
           type="button"
           className="inline-flex h-7 cursor-pointer items-center gap-1 rounded-md border px-2 text-[11px]"
@@ -90,7 +90,7 @@ export function CanvasConfigNodePanel({ node, isRunning, inputSummary, inputs, o
           onClick={() => setPreviewOpen(true)}
         >
           <Eye className="size-3.5" />
-          预览
+          Xem trước
         </button>
       </div>
 
@@ -108,10 +108,10 @@ export function CanvasConfigNodePanel({ node, isRunning, inputSummary, inputs, o
         onClick={() => onGenerate(node.id)}
         icon={isRunning ? <LoaderCircle className="size-4 animate-spin" /> : <Play className="size-4" />}
       >
-        开始生成
+        Bắt đầu tạo
       </Button>
       <Modal
-        title="输入预览"
+        title="Xem trước đầu vào"
         open={previewOpen}
         onCancel={() => setPreviewOpen(false)}
         footer={null}
@@ -130,7 +130,7 @@ export function CanvasConfigNodePanel({ node, isRunning, inputSummary, inputs, o
         {inputs.length ? (
           <div className="flex h-[min(66vh,580px)] flex-col gap-3 overflow-hidden">
             <div className="shrink-0">
-              <PreviewSection title="图片提示词" count={imageInputs.length} empty="暂无图片提示词">
+              <PreviewSection title="Prompt hình ảnh" count={imageInputs.length} empty="Chưa có prompt hình ảnh">
                 <div className="thin-scrollbar flex gap-1.5 overflow-x-auto pb-1">
                   {imageInputs.map((input, index) => <ImageSortCard key={input.nodeId} input={input} imageIndex={index} imageTotal={imageInputs.length} inputs={inputs} theme={theme} onMove={moveInput} />)}
                 </div>
@@ -138,7 +138,7 @@ export function CanvasConfigNodePanel({ node, isRunning, inputSummary, inputs, o
             </div>
             <div className="grid min-h-0 flex-1 grid-cols-2 gap-3 overflow-hidden">
               <div className="thin-scrollbar min-h-0 overflow-y-auto pr-1.5">
-                <PreviewSection title="文本提示词" count={textInputs.length} empty="暂无文本提示词">
+                <PreviewSection title="Prompt văn bản" count={textInputs.length} empty="Chưa có prompt văn bản">
                   <div className="space-y-1.5">
                     {textInputs.map((input, index) => <TextSortCard key={input.nodeId} input={input} textIndex={index} textTotal={textInputs.length} inputs={inputs} theme={theme} onMove={moveInput} onEdit={startTextEdit} />)}
                   </div>
@@ -148,26 +148,26 @@ export function CanvasConfigNodePanel({ node, isRunning, inputSummary, inputs, o
                 {editingTextId ? (
                   <>
                     <div className="mb-2 flex items-center justify-between">
-                      <div className="text-sm font-semibold">编辑文本提示词</div>
-                      <Button size="small" type="text" onClick={() => setEditingTextId(null)}>收起</Button>
+                      <div className="text-sm font-semibold">Sửa prompt văn bản</div>
+                      <Button size="small" type="text" onClick={() => setEditingTextId(null)}>Thu gọn</Button>
                     </div>
                     <Input.TextArea className="thin-scrollbar !flex-1 !resize-none !text-xs !leading-5" value={editingText} onChange={(event) => setEditingText(event.target.value)} />
                     <div className="mt-2 flex justify-end gap-2">
-                      <Button size="small" onClick={() => setEditingTextId(null)}>取消</Button>
-                      <Button size="small" type="primary" onClick={saveTextEdit}>保存</Button>
+                      <Button size="small" onClick={() => setEditingTextId(null)}>Hủy</Button>
+                      <Button size="small" type="primary" onClick={saveTextEdit}>Lưu</Button>
                     </div>
                   </>
                 ) : (
                   <div className="flex h-full flex-col justify-center rounded-xl border border-dashed px-4 text-center text-xs leading-5 opacity-45" style={{ borderColor: theme.node.stroke }}>
                     <Edit3 className="mx-auto mb-2 size-5" />
-                    选择一条文本后在这里编辑
+                    Chọn một văn bản để chỉnh sửa tại đây
                   </div>
                 )}
               </div>
             </div>
           </div>
         ) : (
-          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="暂无提示词或参考图" className="py-8" />
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Chưa có prompt hoặc ảnh tham chiếu" className="py-8" />
         )}
         </div>
       </Modal>
@@ -180,7 +180,7 @@ function PreviewSection({ title, count, empty, children }: { title: string; coun
     <section>
       <div className="sticky top-0 z-10 mb-1 flex items-center justify-between px-0.5 py-0.5 backdrop-blur-sm">
         <div className="text-xs font-semibold">{title}</div>
-        <div className="text-[11px] opacity-50">{count} 个</div>
+        <div className="text-[11px] opacity-50">{count} mục</div>
       </div>
       {count ? children : <div className="rounded-xl border border-dashed px-3 py-5 text-center text-xs opacity-45">{empty}</div>}
     </section>
@@ -191,7 +191,7 @@ function TextSortCard({ input, textIndex, textTotal, inputs, theme, onMove, onEd
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_72px] items-center gap-1.5 rounded-md border px-2 py-1" style={{ background: `${theme.node.fill}99`, borderColor: theme.node.stroke }}>
       <div className="min-w-0">
-        <div className="truncate text-[10px] font-medium opacity-50">文本 {textIndex + 1}</div>
+        <div className="truncate text-[10px] font-medium opacity-50">V {textIndex + 1}</div>
         <div className="line-clamp-1 whitespace-pre-wrap break-words text-[11px] leading-4 opacity-80">{input.text}</div>
       </div>
       <div className="flex justify-end gap-1">

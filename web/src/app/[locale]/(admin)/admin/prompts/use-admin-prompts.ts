@@ -40,10 +40,10 @@ export function useAdminPrompts() {
     onSuccess: async (categories) => {
       queryClient.setQueryData<AdminPromptCategory[]>(["admin", "prompt-categories", token], categories);
       await queryClient.invalidateQueries({ queryKey: ["admin", "prompts"] });
-      message.success("远程提示词源已同步");
+      message.success("Đã đồng bộ nguồn prompt từ xa");
     },
     onError: (error) => {
-      message.error(error instanceof Error ? error.message : "同步失败");
+      message.error(error instanceof Error ? error.message : "Đồng bộ thất bại");
     },
   });
 
@@ -52,10 +52,10 @@ export function useAdminPrompts() {
     onSuccess: async (_, prompt) => {
       await queryClient.invalidateQueries({ queryKey: ["admin", "prompt-categories"] });
       await queryClient.invalidateQueries({ queryKey: ["admin", "prompts"] });
-      message.success(prompt.id ? "提示词已保存" : "提示词已新增");
+      message.success(prompt.id ? "Đã lưu prompt" : "Đã thêm prompt");
     },
     onError: (error) => {
-      message.error(error instanceof Error ? error.message : "保存失败");
+      message.error(error instanceof Error ? error.message : "Lưu thất bại");
     },
   });
 
@@ -64,17 +64,17 @@ export function useAdminPrompts() {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["admin", "prompt-categories"] });
       await queryClient.invalidateQueries({ queryKey: ["admin", "prompts"] });
-      message.success("提示词已删除");
+      message.success("Đã xóa prompt");
     },
     onError: (error) => {
-      message.error(error instanceof Error ? error.message : "删除失败");
+      message.error(error instanceof Error ? error.message : "Xóa thất bại");
     },
   });
 
   useEffect(() => {
     const error = categoriesQuery.error || promptsQuery.error;
     if (!error) return;
-    const errorMessage = error instanceof Error ? error.message : "读取提示词失败";
+    const errorMessage = error instanceof Error ? error.message : "Không thể tải prompt";
     message.error(errorMessage);
     if (errorMessage.includes("未登录") || errorMessage.includes("权限不足") || errorMessage.includes("登录状态无效")) clearSession();
   }, [categoriesQuery.error, clearSession, message, promptsQuery.error]);

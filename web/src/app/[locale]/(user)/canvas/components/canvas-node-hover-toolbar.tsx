@@ -71,22 +71,22 @@ export function CanvasNodeHoverToolbar({
       onMouseDown={(event) => event.stopPropagation()}
       onPointerDown={(event) => event.stopPropagation()}
     >
-      <ToolbarAction title="查看节点信息" label="信息" icon={<Info className="size-4" />} onClick={() => onInfo(node)} />
-      <ToolbarAction title="移除节点" label="删除" icon={<Trash2 className="size-4" />} onClick={() => onDelete(node)} danger />
+      <ToolbarAction title="Xem thông tin nút" label="Thông tin" icon={<Info className="size-4" />} onClick={() => onInfo(node)} />
+      <ToolbarAction title="Xóa nút" label="Xóa" icon={<Trash2 className="size-4" />} onClick={() => onDelete(node)} danger />
       {hasSpecificTools ? <ToolbarDivider /> : null}
-      {canRetry ? <ToolbarAction title="重新生成" label="重试" icon={<RefreshCw className="size-4" />} onClick={() => onRetry(node)} /> : null}
-      {hasImage || isText ? <ToolbarAction title="加入我的素材" label="存素材" icon={<FolderPlus className="size-4" />} onClick={() => onSaveAsset(node)} /> : null}
-      {hasImage ? <IconAction title="下载图片" icon={<Download className="size-5" />} onClick={() => onDownload(node)} /> : null}
-      {canOpenDialog ? <ToolbarAction title="编辑" label="编辑" icon={<MessageSquare className="size-4" />} onClick={() => onToggleDialog(node)} /> : null}
-      {isText ? <ToolbarAction title="编辑文本" label="编辑文字" icon={<Pencil className="size-4" />} onClick={() => onEditText(node)} /> : null}
-      {isText ? <ToolbarAction title="用文本生图" label="生图" icon={<ImageIcon className="size-4" />} onClick={() => onGenerateImage(node)} /> : null}
-      {isConfig ? <ToolbarAction title="生成配置" label="生成配置" icon={<Settings2 className="size-4" />} onClick={() => onInfo(node)} /> : null}
-      {isText ? <ToolbarAction title="减小字号" label="缩小" icon={<Minus className="size-4" />} onClick={() => onDecreaseFont(node)} /> : null}
-      {isText ? <ToolbarAction title="增大字号" label="放大" icon={<Plus className="size-4" />} onClick={() => onIncreaseFont(node)} /> : null}
-      {isImage ? <ToolbarAction title={hasImage ? "替换图片" : "上传图片"} label={hasImage ? "替换图片" : "上传图片"} icon={<Upload className="size-4" />} onClick={() => onUpload(node)} /> : null}
-      {hasImage ? <ToolbarAction title={node.metadata?.freeResize ? "切换为等比缩放" : "切换为自由比例"} label={node.metadata?.freeResize ? "自由比例" : "锁比例"} icon={node.metadata?.freeResize ? <LockOpen className="size-4" /> : <Lock className="size-4" />} onClick={() => onToggleFreeResize(node)} active={node.metadata?.freeResize} /> : null}
-      {hasImage ? <ToolbarAction title="裁剪并生成新节点" label="裁剪" icon={<Scissors className="size-4" />} onClick={() => onCrop(node)} /> : null}
-      {hasImage ? <ToolbarAction title="生成角度" label="多角度" icon={<Camera className="size-4" />} onClick={() => onAngle(node)} /> : null}
+      {canRetry ? <ToolbarAction title="Tạo lại" label="Thử lại" icon={<RefreshCw className="size-4" />} onClick={() => onRetry(node)} /> : null}
+      {hasImage || isText ? <ToolbarAction title="Thêm vào tài nguyên" label="Lưu tài nguyên" icon={<FolderPlus className="size-4" />} onClick={() => onSaveAsset(node)} /> : null}
+      {hasImage ? <IconAction title="Tải ảnh" icon={<Download className="size-5" />} onClick={() => onDownload(node)} /> : null}
+      {canOpenDialog ? <ToolbarAction title="Sửa" label="Sửa" icon={<MessageSquare className="size-4" />} onClick={() => onToggleDialog(node)} /> : null}
+      {isText ? <ToolbarAction title="Sửa văn bản" label="Sửa văn bản" icon={<Pencil className="size-4" />} onClick={() => onEditText(node)} /> : null}
+      {isText ? <ToolbarAction title="Tạo ảnh từ văn bản" label="Tạo ảnh" icon={<ImageIcon className="size-4" />} onClick={() => onGenerateImage(node)} /> : null}
+      {isConfig ? <ToolbarAction title="Cấu hình tạo ảnh" label="Cấu hình tạo ảnh" icon={<Settings2 className="size-4" />} onClick={() => onInfo(node)} /> : null}
+      {isText ? <ToolbarAction title="Giảm cỡ chữ" label="Thu nhỏ" icon={<Minus className="size-4" />} onClick={() => onDecreaseFont(node)} /> : null}
+      {isText ? <ToolbarAction title="Tăng cỡ chữ" label="Phóng to" icon={<Plus className="size-4" />} onClick={() => onIncreaseFont(node)} /> : null}
+      {isImage ? <ToolbarAction title={hasImage ? "Thay thế ảnh" : "Tải ảnh lên"} label={hasImage ? "Thay thế ảnh" : "Tải ảnh lên"} icon={<Upload className="size-4" />} onClick={() => onUpload(node)} /> : null}
+      {hasImage ? <ToolbarAction title={node.metadata?.freeResize ? "Chuyển sang tỷ lệ cố định" : "Chuyển sang tỷ lệ tự do"} label={node.metadata?.freeResize ? "Tỷ lệ tự do" : "Khóa tỷ lệ"} icon={node.metadata?.freeResize ? <LockOpen className="size-4" /> : <Lock className="size-4" />} onClick={() => onToggleFreeResize(node)} active={node.metadata?.freeResize} /> : null}
+      {hasImage ? <ToolbarAction title="Cắt và tạo nút mới" label="Cắt" icon={<Scissors className="size-4" />} onClick={() => onCrop(node)} /> : null}
+      {hasImage ? <ToolbarAction title="Tạo góc nhìn" label="Đa góc" icon={<Camera className="size-4" />} onClick={() => onAngle(node)} /> : null}
     </div>
   );
 }
@@ -113,13 +113,13 @@ export function CanvasNodeInfoModal({ node, open, onClose }: { node: CanvasNodeD
 
   const title = (
     <div className="flex items-center justify-between gap-4 pr-12">
-      <span>节点信息</span>
+      <span>Thông tin nút</span>
       <Segmented
         size="small"
         value={view}
         onChange={(value) => setView(value as "info" | "json")}
         options={[
-          { label: "信息", value: "info" },
+          { label: "Thông tin", value: "info" },
           { label: "JSON", value: "json" },
         ]}
       />
@@ -133,13 +133,13 @@ export function CanvasNodeInfoModal({ node, open, onClose }: { node: CanvasNodeD
           {view === "info" ? (
             <div className="thin-scrollbar h-full space-y-3 overflow-auto pr-1">
               <InfoRow label="ID" value={node.id} />
-              <InfoRow label="类型" value={node.type === CanvasNodeType.Text ? "文本" : node.type === CanvasNodeType.Image ? "图片" : "生成配置"} />
-              <InfoRow label="尺寸" value={`${Math.round(node.width)} x ${Math.round(node.height)}`} />
-              <InfoRow label="位置" value={`${Math.round(node.position.x)}, ${Math.round(node.position.y)}`} />
-              <InfoRow label="状态" value={node.metadata?.status || "idle"} />
-              {batchCount > 1 ? <InfoRow label="图片组" value={`${batchCount} 张`} /> : null}
-              {node.metadata?.prompt ? <InfoRow label="提示词" value={node.metadata.prompt} /> : null}
-              {imageBytes ? <InfoRow label="图片大小" value={formatBytes(imageBytes)} /> : null}
+              <InfoRow label="Loại" value={node.type === CanvasNodeType.Text ? "Văn bản" : node.type === CanvasNodeType.Image ? "Hình ảnh" : "Cấu hình tạo ảnh"} />
+              <InfoRow label="Kích thước" value={`${Math.round(node.width)} x ${Math.round(node.height)}`} />
+              <InfoRow label="Vị trí" value={`${Math.round(node.position.x)}, ${Math.round(node.position.y)}`} />
+              <InfoRow label="Trạng thái" value={node.metadata?.status || "idle"} />
+              {batchCount > 1 ? <InfoRow label="Nhóm ảnh" value={`${batchCount} ảnh`} /> : null}
+              {node.metadata?.prompt ? <InfoRow label="Prompt" value={node.metadata.prompt} /> : null}
+              {imageBytes ? <InfoRow label="Dung lượng ảnh" value={formatBytes(imageBytes)} /> : null}
               {node.metadata?.errorDetails ? <div className="rounded-lg border p-3 text-red-400" style={{ borderColor: theme.node.stroke }}>{node.metadata.errorDetails}</div> : null}
             </div>
           ) : (

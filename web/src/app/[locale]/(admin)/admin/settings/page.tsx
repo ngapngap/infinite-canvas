@@ -79,7 +79,7 @@ export default function AdminSettingsPage() {
         private: JSON.stringify(data.private, null, 2),
       });
     } catch (error) {
-      message.error(error instanceof Error ? error.message : "读取设置失败");
+      message.error(error instanceof Error ? error.message : "Không thể tải cài đặt");
     } finally {
       setIsLoading(false);
     }
@@ -108,9 +108,9 @@ export default function AdminSettingsPage() {
         public: JSON.stringify(saved.public, null, 2),
         private: JSON.stringify(saved.private, null, 2),
       });
-      message.success("已保存");
+      message.success("Đã lưu");
     } catch (error) {
-      message.error(error instanceof Error ? error.message : "保存失败");
+      message.error(error instanceof Error ? error.message : "Lưu thất bại");
     } finally {
       setIsSaving(false);
     }
@@ -127,7 +127,7 @@ export default function AdminSettingsPage() {
     }
     const parsed = parseTabJson(tab, jsonText[tab]);
     if (!parsed) {
-      message.error("JSON 格式不正确");
+      message.error("JSON không hợp lệ");
       return;
     }
     form.setFieldsValue({ [tab]: parsed } as Partial<AdminSettings>);
@@ -138,7 +138,7 @@ export default function AdminSettingsPage() {
   const formatJson = (tab: SettingsTabKey) => {
     const parsed = parseTabJson(tab, jsonText[tab]);
     if (!parsed) {
-      message.error("JSON 格式不正确");
+      message.error("JSON không hợp lệ");
       return;
     }
     setJsonText((current) => ({
@@ -172,22 +172,22 @@ export default function AdminSettingsPage() {
   const fetchChannelModelList = async () => {
     const channel = channelForm.getFieldsValue();
     if (!channel?.baseUrl || !channel?.apiKey) {
-      message.warning("请先填写接口地址和 API Key");
+      message.warning("Vui lòng điền địa chỉ API và API Key trước");
       return;
     }
     try {
       const channelModels = await fetchChannelModels(channel);
       channelForm.setFieldValue("models", channelModels);
-      message.success(`已获取 ${channelModels.length} 个模型`);
+      message.success(`Đã lấy ${channelModels.length} mô hình`);
     } catch (error) {
-      message.error(error instanceof Error ? error.message : "读取模型失败");
+      message.error(error instanceof Error ? error.message : "Không thể tải danh sách mô hình");
     }
   };
 
   const openTestDialog = (index: number) => {
     const channel = normalizeChannel(channels[index]);
     if (!channel.baseUrl || !channel.apiKey || channel.models.length === 0) {
-      message.warning("请先填写接口地址、API Key 和至少一个模型");
+      message.warning("Vui lòng điền địa chỉ API, API Key và ít nhất một mô hình");
       return;
     }
     setTestChannelIndex(index);
@@ -214,7 +214,7 @@ export default function AdminSettingsPage() {
       const result = await testChannelModel(channel, model);
       setTestResults((current) => ({ ...current, [model]: { status: "success", duration: `${((performance.now() - startedAt) / 1000).toFixed(2)}s`, message: result } }));
     } catch (error) {
-      setTestResults((current) => ({ ...current, [model]: { status: "error", message: error instanceof Error ? error.message : "测试失败" } }));
+      setTestResults((current) => ({ ...current, [model]: { status: "error", message: error instanceof Error ? error.message : "Kiểm tra thất bại" } }));
     } finally {
       setTestingModels((current) => current.filter((item) => item !== model));
     }
@@ -238,13 +238,13 @@ export default function AdminSettingsPage() {
               activeKey={activeTab}
               onChange={(key) => changeTab(key as SettingsTabKey)}
               items={[
-                { key: "public", label: "公开配置（对外暴露）" },
-                { key: "private", label: "私有配置（不会对外暴露）" },
+                { key: "public", label: "Cấu hình công khai (hiển thị cho frontend)" },
+                { key: "private", label: "Cấu hình riêng tư (không hiển thị)" },
               ]}
             />
             <Space>
-              <Button icon={<ReloadOutlined />} loading={isLoading} onClick={() => void loadSettings()}>刷新</Button>
-              <Button type="primary" icon={<SaveOutlined />} loading={isSaving} onClick={() => void saveSettings()}>保存设置</Button>
+              <Button icon={<ReloadOutlined />} loading={isLoading} onClick={() => void loadSettings()}>Làm mới</Button>
+              <Button type="primary" icon={<SaveOutlined />} loading={isSaving} onClick={() => void saveSettings()}>Lưu cài đặt</Button>
             </Space>
           </Flex>
         </Card>
@@ -254,15 +254,15 @@ export default function AdminSettingsPage() {
             <Segmented
               value={activeMode}
               onChange={(value) => toggleMode(activeTab, value as EditorMode)}
-              options={[{ label: "可视化编辑", value: "visual" }, { label: "手动编辑 JSON", value: "json" }]}
+              options={[{ label: "Chỉnh sửa trực quan", value: "visual" }, { label: "Chỉnh sửa JSON", value: "json" }]}
             />
             {activeMode === "json" ? (
               <Space>
-                {jsonError ? <Tag color="error">{jsonError}</Tag> : <Tag color="success" icon={<CheckCircleOutlined />}>JSON 格式正确</Tag>}
-                <Button icon={<FormatPainterOutlined />} onClick={() => formatJson(activeTab)}>格式化</Button>
+                {jsonError ? <Tag color="error">{jsonError}</Tag> : <Tag color="success" icon={<CheckCircleOutlined />}>JSON hợp lệ</Tag>}
+                <Button icon={<FormatPainterOutlined />} onClick={() => formatJson(activeTab)}>Định dạng</Button>
               </Space>
             ) : (
-              <Typography.Text type="secondary">{activeTab === "public" ? "这些配置会暴露给前端读取" : "这些配置只会在后台保存"}</Typography.Text>
+              <Typography.Text type="secondary">{activeTab === "public" ? "Các cài đặt này được hiển thị cho frontend" : "Các cài đặt này chỉ lưu ở backend"}</Typography.Text>
             )}
           </Flex>
 
@@ -270,12 +270,12 @@ export default function AdminSettingsPage() {
             activeMode === "visual" ? (
               <Form form={form} layout="vertical" initialValues={emptySettings} requiredMark={false}>
                 <Row gutter={16}>
-                  <Col span={24}><Form.Item name={["public", "modelChannel", "availableModels"]} label="系统可用模型(请先配置渠道)"><Select mode="tags" tokenSeparators={[",", "\n"]} options={modelOptions.map((item) => ({ label: item, value: item }))} /></Form.Item></Col>
-                  <Col xs={24} md={8}><Form.Item name={["public", "modelChannel", "defaultModel"]} label="默认模型"><Select showSearch allowClear options={publicModels.map((item) => ({ label: item, value: item }))} /></Form.Item></Col>
-                  <Col xs={24} md={8}><Form.Item name={["public", "modelChannel", "defaultImageModel"]} label="默认图片模型"><Select showSearch allowClear options={publicModels.map((item) => ({ label: item, value: item }))} /></Form.Item></Col>
-                  <Col xs={24} md={8}><Form.Item name={["public", "modelChannel", "defaultTextModel"]} label="默认文本模型"><Select showSearch allowClear options={publicModels.map((item) => ({ label: item, value: item }))} /></Form.Item></Col>
-                  <Col span={24}><Form.Item name={["public", "modelChannel", "systemPrompt"]} label="系统提示词"><Input.TextArea rows={4} /></Form.Item></Col>
-                  <Col span={24}><Form.Item name={["public", "modelChannel", "allowCustomChannel"]} label="是否允许用户自定义渠道" extra="开启后，前端可提供走后端渠道和用户自定义 baseUrl 直连两种模式" valuePropName="checked"><Switch /></Form.Item></Col>
+                  <Col span={24}><Form.Item name={["public", "modelChannel", "availableModels"]} label="Mô hình khả dụng (cấu hình kênh trước)"><Select mode="tags" tokenSeparators={[",", "\n"]} options={modelOptions.map((item) => ({ label: item, value: item }))} /></Form.Item></Col>
+                   <Col xs={24} md={8}><Form.Item name={["public", "modelChannel", "defaultModel"]} label="Mô hình mặc định"><Select showSearch allowClear options={publicModels.map((item) => ({ label: item, value: item }))} /></Form.Item></Col>
+                   <Col xs={24} md={8}><Form.Item name={["public", "modelChannel", "defaultImageModel"]} label="Mô hình ảnh mặc định"><Select showSearch allowClear options={publicModels.map((item) => ({ label: item, value: item }))} /></Form.Item></Col>
+                   <Col xs={24} md={8}><Form.Item name={["public", "modelChannel", "defaultTextModel"]} label="Mô hình văn bản mặc định"><Select showSearch allowClear options={publicModels.map((item) => ({ label: item, value: item }))} /></Form.Item></Col>
+                   <Col span={24}><Form.Item name={["public", "modelChannel", "systemPrompt"]} label="System Prompt"><Input.TextArea rows={4} /></Form.Item></Col>
+                   <Col span={24}><Form.Item name={["public", "modelChannel", "allowCustomChannel"]} label="Cho phép kênh tùy chỉnh" extra="Khi bật, người dùng có thể chọn giữa kênh backend và kết nối trực tiếp qua baseUrl tùy chỉnh" valuePropName="checked"><Switch /></Form.Item></Col>
                 </Row>
               </Form>
             ) : (
@@ -297,28 +297,28 @@ export default function AdminSettingsPage() {
                 <Alert
                   showIcon
                   type="warning"
-                  message="当前还没有完整用户体系，所有访问到站点的用户都可以无条件使用后端渠道 API。请不要公网部署，避免私有渠道额度被他人消耗。"
+                  message="Hiện chưa có hệ thống người dùng hoàn chỉnh. Tất cả người truy cập đều có thể sử dụng API kênh backend. Không nên triển khai công khai để tránh tiêu hao quota."
                 />
-                <Button type="primary" icon={<PlusOutlined />} onClick={() => openChannelDrawer(null)}>新增渠道</Button>
+                <Button type="primary" icon={<PlusOutlined />} onClick={() => openChannelDrawer(null)}>Thêm kênh</Button>
                 <Table
                   rowKey={(_, index) => String(index)}
                   pagination={false}
                   dataSource={channels}
                   columns={[
-                    { title: "名称", dataIndex: "name", render: (value) => value || "未命名渠道" },
-                    { title: "协议", dataIndex: "protocol", width: 96, render: (value) => <Tag>{value || "openai"}</Tag> },
-                    { title: "状态", dataIndex: "enabled", width: 96, render: (value) => <Tag color={value ? "success" : "default"}>{value ? "已启用" : "已停用"}</Tag> },
-                    { title: "模型", dataIndex: "models", render: (value: string[]) => <Typography.Text ellipsis style={{ maxWidth: 360 }}>{modelSummary(value || [])}</Typography.Text> },
-                    { title: "权重", dataIndex: "weight", width: 88 },
+                    { title: "Tên", dataIndex: "name", render: (value) => value || "Kênh chưa đặt tên" },
+                    { title: "Giao thức", dataIndex: "protocol", width: 96, render: (value) => <Tag>{value || "openai"}</Tag> },
+                    { title: "Trạng thái", dataIndex: "enabled", width: 96, render: (value) => <Tag color={value ? "success" : "default"}>{value ? "Đã bật" : "Đã tắt"}</Tag> },
+                    { title: "Mô hình", dataIndex: "models", render: (value: string[]) => <Typography.Text ellipsis style={{ maxWidth: 360 }}>{modelSummary(value || [])}</Typography.Text> },
+                    { title: "Trọng số", dataIndex: "weight", width: 88 },
                     {
-                      title: "操作",
+                      title: "Thao tác",
                       key: "actions",
                       width: 220,
                       align: "right",
                       render: (_, __, index) => (
                         <Space size={4}>
-                          <Button size="small" onClick={() => openTestDialog(index)}>测试</Button>
-                          <Button size="small" onClick={() => openChannelDrawer(index)}>编辑</Button>
+                          <Button size="small" onClick={() => openTestDialog(index)}>Kiểm tra</Button>
+                          <Button size="small" onClick={() => openChannelDrawer(index)}>Sửa</Button>
                           <Button danger size="small" icon={<DeleteOutlined />} onClick={() => {
                             const nextChannels = [...channels];
                             nextChannels.splice(index, 1);
@@ -346,38 +346,38 @@ export default function AdminSettingsPage() {
             </div>
           )}
         </Card>
-        <Drawer title={editingChannelIndex === null ? "新增渠道" : "编辑渠道"} open={isChannelDrawerOpen} size={560} onClose={closeChannelDrawer} extra={<Space><Button onClick={closeChannelDrawer}>取消</Button><Button type="primary" onClick={() => void saveChannel()}>保存</Button></Space>} destroyOnHidden>
+        <Drawer title={editingChannelIndex === null ? "Thêm kênh" : "Sửa kênh"} open={isChannelDrawerOpen} size={560} onClose={closeChannelDrawer} extra={<Space><Button onClick={closeChannelDrawer}>Hủy</Button><Button type="primary" onClick={() => void saveChannel()}>Lưu</Button></Space>} destroyOnHidden>
           <Form form={channelForm} layout="vertical" requiredMark={false} initialValues={emptyChannel}>
             <Row gutter={16}>
-              <Col span={12}><Form.Item name="name" label="渠道名称" rules={[{ required: true, message: "请输入渠道名称" }]}><Input /></Form.Item></Col>
-              <Col span={12}><Form.Item name="protocol" label="协议"><Select options={[{ label: "OpenAI", value: "openai" }]} /></Form.Item></Col>
-              <Col span={12}><Form.Item name="weight" label="权重"><InputNumber min={1} step={1} className="!w-full" /></Form.Item></Col>
-              <Col span={12}><Form.Item name="enabled" label="启用" valuePropName="checked"><Switch /></Form.Item></Col>
-              <Col span={24}><Form.Item name="baseUrl" label="接口地址" rules={[{ required: true, message: "请输入接口地址" }]}><Input /></Form.Item></Col>
-              <Col span={24}><Form.Item name="apiKey" label="API Key" rules={[{ required: true, message: "请输入 API Key" }]}><Input.Password /></Form.Item></Col>
+              <Col span={12}><Form.Item name="name" label="Tên kênh" rules={[{ required: true, message: "Vui lòng nhập tên kênh" }]}><Input /></Form.Item></Col>
+              <Col span={12}><Form.Item name="protocol" label="Giao thức"><Select options={[{ label: "OpenAI", value: "openai" }]} /></Form.Item></Col>
+              <Col span={12}><Form.Item name="weight" label="Trọng số"><InputNumber min={1} step={1} className="!w-full" /></Form.Item></Col>
+              <Col span={12}><Form.Item name="enabled" label="Bật" valuePropName="checked"><Switch /></Form.Item></Col>
+              <Col span={24}><Form.Item name="baseUrl" label="Địa chỉ API" rules={[{ required: true, message: "Vui lòng nhập địa chỉ API" }]}><Input /></Form.Item></Col>
+              <Col span={24}><Form.Item name="apiKey" label="API Key" rules={[{ required: true, message: "Vui lòng nhập API Key" }]}><Input.Password /></Form.Item></Col>
               <Col span={24}>
-                <Form.Item label="渠道可用模型">
+                <Form.Item label="Mô hình của kênh">
                   <Space.Compact style={{ width: "100%" }}>
                     <Form.Item name="models" noStyle><Select mode="tags" tokenSeparators={[",", "\n"]} /></Form.Item>
-                    <Button icon={<ReloadOutlined />} onClick={() => void fetchChannelModelList()}>获取模型列表</Button>
+                    <Button icon={<ReloadOutlined />} onClick={() => void fetchChannelModelList()}>Lấy danh sách mô hình</Button>
                   </Space.Compact>
                 </Form.Item>
               </Col>
-              <Col span={24}><Form.Item name="remark" label="备注"><Input.TextArea rows={3} /></Form.Item></Col>
+              <Col span={24}><Form.Item name="remark" label="Ghi chú"><Input.TextArea rows={3} /></Form.Item></Col>
             </Row>
           </Form>
         </Drawer>
         <Modal
-          title={<Space>{testChannel?.name || "渠道"} 渠道的模型测试<Typography.Text type="secondary">共 {testChannel?.models.length || 0} 个模型</Typography.Text></Space>}
+          title={<Space>{testChannel?.name || "Kênh"} Kiểm tra mô hình kênh<Typography.Text type="secondary">Tổng {testChannel?.models.length || 0} mô hình</Typography.Text></Space>}
           open={testChannelIndex !== null}
           width={920}
           onCancel={closeTestDialog}
-          footer={<Space><Button onClick={closeTestDialog}>取消</Button><Button type="primary" disabled={!selectedTestModels.length || testingModels.length > 0} onClick={() => void batchTestModels()}>批量测试 {selectedTestModels.length} 个模型</Button></Space>}
+          footer={<Space><Button onClick={closeTestDialog}>Hủy</Button><Button type="primary" disabled={!selectedTestModels.length || testingModels.length > 0} onClick={() => void batchTestModels()}>Kiểm tra hàng loạt {selectedTestModels.length} mô hình</Button></Space>}
           destroyOnHidden
         >
           <Flex vertical gap={12}>
-            <Typography.Text type="secondary">测试会向选中模型发送一条 hi，用于确认渠道是否有响应。</Typography.Text>
-            <Input.Search placeholder="搜索模型..." allowClear value={testKeyword} onChange={(event) => setTestKeyword(event.target.value)} />
+            <Typography.Text type="secondary">Kiểm tra sẽ gửi "hi" đến các mô hình đã chọn để xác nhận kênh có phản hồi.</Typography.Text>
+            <Input.Search placeholder="Tìm mô hình..." allowClear value={testKeyword} onChange={(event) => setTestKeyword(event.target.value)} />
             <Table
               rowKey="model"
               pagination={false}
@@ -388,19 +388,19 @@ export default function AdminSettingsPage() {
                 onChange: (keys) => setSelectedTestModels(keys.map(String)),
               }}
               columns={[
-                { title: "模型名称", dataIndex: "model", render: (value) => <Typography.Text strong>{value}</Typography.Text> },
+                { title: "Tên mô hình", dataIndex: "model", render: (value) => <Typography.Text strong>{value}</Typography.Text> },
                 {
-                  title: "状态",
+                  title: "Trạng thái",
                   dataIndex: "model",
                   width: 260,
                   render: (value) => {
-                    if (testingModels.includes(value)) return <Tag color="processing">测试中</Tag>;
+                    if (testingModels.includes(value)) return <Tag color="processing">Đang kiểm tra</Tag>;
                     const result = testResults[value];
-                    if (!result) return <Tag>未开始</Tag>;
+                    if (!result) return <Tag>Chưa bắt đầu</Tag>;
                     return result.status === "success" ? (
                       <Space size={6} wrap>
-                        <Tag color="success">成功</Tag>
-                        <Typography.Text type="secondary">请求时长: {result.duration}</Typography.Text>
+                        <Tag color="success">Thành công</Tag>
+                        <Typography.Text type="secondary">Thời gian: {result.duration}</Typography.Text>
                       </Space>
                     ) : (
                       <Typography.Text type="danger">{result.message}</Typography.Text>
@@ -408,11 +408,11 @@ export default function AdminSettingsPage() {
                   },
                 },
                 {
-                  title: "操作",
+                  title: "Thao tác",
                   key: "actions",
                   width: 120,
                   align: "right",
-                  render: (_, item) => <Button size="small" loading={testingModels.includes(item.model)} onClick={() => void testModelOnline(item.model)}>测试</Button>,
+                  render: (_, item) => <Button size="small" loading={testingModels.includes(item.model)} onClick={() => void testModelOnline(item.model)}>Kiểm tra</Button>,
                 },
               ]}
             />
@@ -472,9 +472,9 @@ function uniqueModels(models: string[]) {
 }
 
 function modelSummary(models: string[]) {
-  if (!models.length) return "未配置模型";
+  if (!models.length) return "Chưa cấu hình mô hình";
   const preview = models.slice(0, 3).join(", ");
-  return models.length > 3 ? `${models.length} 个模型：${preview}...` : preview;
+  return models.length > 3 ? `${models.length} mô hình: ${preview}...` : preview;
 }
 
 function parseTabJson(tab: "public", value: string): AdminSettings["public"] | null;
@@ -493,7 +493,7 @@ async function collectSettings(form: any, editorMode: Record<SettingsTabKey, Edi
   if (editorMode.public === "json") {
     const publicSetting = parseTabJson("public", jsonText.public);
     if (!publicSetting) {
-      message.error("公开配置 JSON 格式不正确");
+      message.error("Cấu hình công khai JSON không hợp lệ");
       return null;
     }
     values.public = publicSetting;
@@ -501,7 +501,7 @@ async function collectSettings(form: any, editorMode: Record<SettingsTabKey, Edi
   if (editorMode.private === "json") {
     const privateSetting = parseTabJson("private", jsonText.private);
     if (!privateSetting) {
-      message.error("私有配置 JSON 格式不正确");
+      message.error("Cấu hình riêng tư JSON không hợp lệ");
       return null;
     }
     values.private = privateSetting;
@@ -514,6 +514,6 @@ function getJsonError(value: string) {
     JSON.parse(value);
     return "";
   } catch (error) {
-    return error instanceof Error ? error.message : "JSON 格式不正确";
+    return error instanceof Error ? error.message : "JSON không hợp lệ";
   }
 }

@@ -30,7 +30,7 @@ function resolveImageDataUrl(item: Record<string, unknown>) {
 
 function parseImagePayload(payload: ImageApiResponse) {
   if (typeof payload.code === "number" && payload.code !== 0) {
-    throw new Error(payload.msg || "请求失败");
+    throw new Error(payload.msg || "Yêu cầu thất bại");
   }
   const images =
     payload.data
@@ -39,7 +39,7 @@ function parseImagePayload(payload: ImageApiResponse) {
       .map((dataUrl) => ({ id: nanoid(), dataUrl })) || [];
 
   if (images.length === 0) {
-    throw new Error("接口没有返回图片");
+    throw new Error("API không trả về hình ảnh");
   }
 
   return images;
@@ -106,7 +106,7 @@ export async function requestGeneration(config: AiConfig, prompt: string) {
     );
     return parseImagePayload(response.data);
   } catch (error) {
-    throw new Error(readAxiosError(error, "请求失败"));
+    throw new Error(readAxiosError(error, "Yêu cầu thất bại"));
   }
 }
 
@@ -130,7 +130,7 @@ export async function requestEdit(config: AiConfig, prompt: string, references: 
     const response = await axios.post<ImageApiResponse>(aiApiUrl(config, "/images/edits"), formData, { headers: aiHeaders(config) });
     return parseImagePayload(response.data);
   } catch (error) {
-    throw new Error(readAxiosError(error, "请求失败"));
+    throw new Error(readAxiosError(error, "Yêu cầu thất bại"));
   }
 }
 
@@ -169,14 +169,14 @@ export async function requestImageQuestion(config: AiConfig, messages: ChatCompl
       },
     );
     if (typeof response.data === "object" && response.data && "code" in response.data && (response.data as { code?: number; msg?: string }).code !== 0) {
-      throw new Error((response.data as { msg?: string }).msg || "请求失败");
+      throw new Error((response.data as { msg?: string }).msg || "Yêu cầu thất bại");
     }
     if (typeof response.data === "string") {
       let apiError = "";
       try {
         const payload = JSON.parse(response.data) as { code?: number; msg?: string };
         if (typeof payload.code === "number" && payload.code !== 0) {
-          apiError = payload.msg || "请求失败";
+          apiError = payload.msg || "Yêu cầu thất bại";
         }
       } catch {
         // ignore plain text stream content
@@ -190,9 +190,9 @@ export async function requestImageQuestion(config: AiConfig, messages: ChatCompl
       });
     }
   } catch (error) {
-    throw new Error(readAxiosError(error, "请求失败"));
+    throw new Error(readAxiosError(error, "Yêu cầu thất bại"));
   }
-  return answer || "没有返回内容";
+  return answer || "Không có nội dung trả về";
 }
 
 export async function fetchImageModels(config: AiConfig) {
@@ -208,6 +208,6 @@ export async function fetchImageModels(config: AiConfig) {
       .filter((id): id is string => Boolean(id))
       .sort((a, b) => a.localeCompare(b));
   } catch (error) {
-    throw new Error(readAxiosError(error, "读取模型失败"));
+    throw new Error(readAxiosError(error, "Không thể tải danh sách mô hình"));
   }
 }

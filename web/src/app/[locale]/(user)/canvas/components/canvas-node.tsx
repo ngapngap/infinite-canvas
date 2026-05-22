@@ -346,7 +346,7 @@ function LoadingContent({ theme }: Pick<NodeContentRendererProps, "theme">) {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center gap-3" style={{ color: theme.node.activeStroke }}>
       <div className="size-10 animate-spin rounded-full border-2" style={{ borderColor: theme.node.stroke, borderTopColor: theme.node.activeStroke }} />
-      <span className="text-[10px] tracking-[0.2em]">生成中</span>
+      <span className="text-[10px] tracking-[0.2em]">Đang tạo</span>
     </div>
   );
 }
@@ -358,7 +358,7 @@ function ErrorContent({
 }: Pick<NodeContentRendererProps, "node" | "theme" | "onRetry">) {
   return (
     <div className="flex max-w-[260px] flex-col items-center gap-3 px-5 text-center">
-      <div className="text-xs leading-5 text-red-300">{node.metadata?.errorDetails || "生成失败"}</div>
+      <div className="text-xs leading-5 text-red-300">{node.metadata?.errorDetails || "Tạo thất bại"}</div>
       <button
         type="button"
         className="inline-flex h-8 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition hover:scale-[1.02]"
@@ -370,7 +370,7 @@ function ErrorContent({
         onMouseDown={(event) => event.stopPropagation()}
       >
         <RefreshCw className="size-3.5" />
-        重试
+        Thử lại
       </button>
     </div>
   );
@@ -397,11 +397,11 @@ function TextContent({
         }}
         onMouseDown={(event) => event.stopPropagation()}
         onPointerDown={(event) => event.stopPropagation()}
-        title="用文本生图"
-        aria-label="用文本生图"
+        title="Tạo ảnh từ văn bản"
+        aria-label="Tạo ảnh từ văn bản"
       >
         <ImageIcon className="size-3.5" />
-        生图
+        Tạo ảnh
       </button>
       {isEditingContent ? (
         <textarea
@@ -424,7 +424,7 @@ function TextContent({
           style={{ fontSize: `${node.metadata?.fontSize || 14}px`, color: theme.node.text }}
           onWheel={(event) => event.stopPropagation()}
         >
-          {node.metadata?.content || <span style={{ color: theme.node.placeholder }}>双击编辑文字</span>}
+          {node.metadata?.content || <span style={{ color: theme.node.placeholder }}>Nhấp đúp để chỉnh sửa</span>}
         </div>
       )}
     </div>
@@ -462,7 +462,7 @@ function EmptyImageContent({ theme, isBatchRoot, batchCount, batchExpanded, batc
       <div className="flex size-14 items-center justify-center rounded-2xl" style={{ background: theme.toolbar.activeBg }}>
         <ImageIcon className="size-6 opacity-30" />
       </div>
-      <span className="text-[10px] tracking-[0.18em] opacity-50">空图片节点</span>
+      <span className="text-[10px] tracking-[0.18em] opacity-50">Nút ảnh trống</span>
     </div>
   );
   if (isBatchRoot) return <BatchFrame batchCount={batchCount} batchExpanded={batchExpanded} batchOpening={batchOpening} batchRecovering={batchRecovering} onToggleBatch={onToggleBatch}>{content}</BatchFrame>;
@@ -509,7 +509,7 @@ function ImageContent({
           type="button"
           className="absolute right-2.5 top-2.5 z-30 flex h-8 items-center justify-center gap-1 rounded-full border px-2.5 text-xs font-semibold shadow-[0_6px_18px_rgba(15,23,42,.10)] backdrop-blur-md transition hover:scale-[1.02]"
           style={{ background: `${theme.toolbar.panel}d9`, borderColor: `${theme.toolbar.border}cc`, color: theme.node.text }}
-          aria-label={batchExpanded ? "图片组已展开" : "图片组已收起"}
+          aria-label={batchExpanded ? "Đã mở rộng nhóm ảnh" : "Đã thu gọn nhóm ảnh"}
           onClick={(event) => {
             event.stopPropagation();
             onToggleBatch?.();
@@ -534,7 +534,7 @@ function ImageContent({
           onPointerDown={(event) => event.stopPropagation()}
         >
           <Star className="size-3.5 text-[#2f80ff]" />
-          设为主图
+          Đặt làm ảnh chính
         </button>
       ) : null}
     </BatchFrame>

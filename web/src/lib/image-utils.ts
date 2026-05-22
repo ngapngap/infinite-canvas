@@ -18,7 +18,7 @@ export function formatDuration(ms: number) {
   const value = Math.max(0, Math.floor(ms / 1000));
   const minutes = Math.floor(value / 60);
   const seconds = value % 60;
-  return minutes ? `${minutes}分${String(seconds).padStart(2, "0")}秒` : `${seconds}秒`;
+  return minutes ? `${minutes}:${String(seconds).padStart(2, "0")}` : `${seconds}s`;
 }
 
 export function getDataUrlByteSize(dataUrl: string) {
@@ -34,7 +34,7 @@ export function readFileAsDataUrl(file: File) {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(new Error("读取图片失败"));
+    reader.onerror = () => reject(new Error("Không thể đọc hình ảnh"));
     reader.readAsDataURL(file);
   });
 }

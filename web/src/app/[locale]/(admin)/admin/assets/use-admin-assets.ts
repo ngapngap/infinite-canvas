@@ -31,10 +31,10 @@ export function useAdminAssets() {
     mutationFn: (asset: Partial<AdminAsset>) => saveAdminAsset(token, asset),
     onSuccess: async (_, asset) => {
       await queryClient.invalidateQueries({ queryKey: ["admin", "assets"] });
-      message.success(asset.id ? "素材已保存" : "素材已新增");
+      message.success(asset.id ? "Đã lưu tài nguyên" : "Đã thêm tài nguyên");
     },
     onError: (error) => {
-      message.error(error instanceof Error ? error.message : "保存失败");
+      message.error(error instanceof Error ? error.message : "Lưu thất bại");
     },
   });
 
@@ -42,16 +42,16 @@ export function useAdminAssets() {
     mutationFn: (id: string) => deleteAdminAsset(token, id),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["admin", "assets"] });
-      message.success("素材已删除");
+      message.success("Đã xóa tài nguyên");
     },
     onError: (error) => {
-      message.error(error instanceof Error ? error.message : "删除失败");
+      message.error(error instanceof Error ? error.message : "Xóa thất bại");
     },
   });
 
   useEffect(() => {
     if (query.isError) {
-      const errorMessage = query.error instanceof Error ? query.error.message : "读取素材失败";
+      const errorMessage = query.error instanceof Error ? query.error.message : "Không thể tải tài nguyên";
       message.error(errorMessage);
       if (errorMessage.includes("未登录") || errorMessage.includes("权限不足") || errorMessage.includes("登录状态无效")) clearSession();
     }

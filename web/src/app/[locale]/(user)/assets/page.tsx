@@ -23,9 +23,9 @@ type AssetFormValues = {
 type ImageDraft = ImageAsset["data"] | null;
 
 const kindOptions = [
-  { label: "全部", value: "all" },
-  { label: "文本", value: "text" },
-  { label: "图片", value: "image" },
+  { label: "Tất cả", value: "all" },
+  { label: "Văn bản", value: "text" },
+  { label: "Hình ảnh", value: "image" },
 ];
 
 export default function AssetsPage() {
@@ -77,7 +77,7 @@ export default function AssetsPage() {
     setEditingAsset(null);
     setImageDraft(null);
     setFormKind("text");
-    form.setFieldsValue({ kind: "text", title: "", coverUrl: "", tags: [], source: "手动添加", note: "", content: "" });
+    form.setFieldsValue({ kind: "text", title: "", coverUrl: "", tags: [], source: "Thêm thủ công", note: "", content: "" });
     setIsAssetOpen(true);
   };
 
@@ -113,14 +113,14 @@ export default function AssetsPage() {
       editingAsset ? updateAsset(editingAsset.id, asset) : addAsset(asset);
     } else {
       if (!imageDraft) {
-        message.error("请选择图片文件");
+        message.error("Vui lòng chọn file ảnh");
         return;
       }
       const asset = { ...base, kind: "image" as const, data: imageDraft };
       editingAsset ? updateAsset(editingAsset.id, asset) : addAsset(asset);
     }
 
-    message.success(editingAsset ? "素材已更新" : "素材已保存");
+    message.success(editingAsset ? "Đã cập nhật tài nguyên" : "Đã lưu tài nguyên");
     setIsAssetOpen(false);
   };
 
@@ -141,7 +141,7 @@ export default function AssetsPage() {
 
   const copyAssetText = async (asset: Asset) => {
     if (asset.kind !== "text") return;
-    copyText(asset.data.content, "文本已复制");
+    copyText(asset.data.content, "Đã sao chép văn bản");
   };
 
   const downloadImage = (asset: Asset) => {
@@ -155,7 +155,7 @@ export default function AssetsPage() {
   const confirmDelete = () => {
     if (!deletingAsset) return;
     removeAsset(deletingAsset.id);
-    message.success("素材已删除");
+    message.success("Đã xóa tài nguyên");
     setDeletingAsset(null);
   };
 
@@ -164,18 +164,18 @@ export default function AssetsPage() {
       <main className="min-h-0 flex-1 overflow-y-auto bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] px-6 py-8 [background-size:16px_16px] dark:bg-[radial-gradient(rgba(245,245,244,.14)_1px,transparent_1px)]">
         <div className="pb-8">
           <div className="mx-auto max-w-5xl text-center">
-            <h1 className="text-4xl font-semibold tracking-tight text-stone-950 dark:text-stone-100">我的素材</h1>
-            <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">收藏常用文本和图片，按类型、标题和标签快速查找。</p>
+            <h1 className="text-4xl font-semibold tracking-tight text-stone-950 dark:text-stone-100">Tài nguyên của tôi</h1>
+            <p className="mt-3 text-sm text-stone-500 dark:text-stone-400">Lưu trữ văn bản và hình ảnh thường dùng, tìm kiếm nhanh theo loại, tiêu đề và thẻ.</p>
           </div>
 
           <div className="mx-auto mt-8 w-full max-w-2xl">
-            <Input.Search className="w-full" size="large" allowClear prefix={<Search className="size-4 text-stone-400" />} value={keyword} placeholder="搜索标题、内容、标签或来源" onChange={(event) => { setPage(1); setKeyword(event.target.value); }} onSearch={(value) => { setPage(1); setKeyword(value); }} />
+            <Input.Search className="w-full" size="large" allowClear prefix={<Search className="size-4 text-stone-400" />} value={keyword} placeholder="Tìm tiêu đề, nội dung, thẻ hoặc nguồn" onChange={(event) => { setPage(1); setKeyword(event.target.value); }} onSearch={(value) => { setPage(1); setKeyword(value); }} />
           </div>
 
           <div className="mx-auto mt-6 grid max-w-6xl gap-3 text-left">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="grid gap-2 sm:grid-cols-[56px_minmax(0,1fr)] sm:items-center">
-                <div className="text-xs font-medium text-stone-500 dark:text-stone-400">类型</div>
+                <div className="text-xs font-medium text-stone-500 dark:text-stone-400">Loại</div>
                 <div className="flex flex-wrap gap-2">
                   {kindOptions.map((option) => (
                     <Tag.CheckableTag key={option.value} checked={kindFilter === option.value} className={cn("prompt-filter-tag", kindFilter === option.value && "is-active")} onChange={() => { setPage(1); setKindFilter(option.value as AssetKind | "all"); }}>
@@ -185,7 +185,7 @@ export default function AssetsPage() {
                 </div>
               </div>
               <button type="button" className="cursor-pointer self-start text-sm font-medium text-stone-700 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:underline sm:self-center dark:text-stone-300" onClick={openCreate}>
-                新增素材
+                Thêm tài nguyên
               </button>
             </div>
           </div>
@@ -206,7 +206,7 @@ export default function AssetsPage() {
             ))}
           </div>
 
-          {!visibleAssets.length ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="没有找到素材" className="py-20" /> : null}
+          {!visibleAssets.length ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Không tìm thấy tài nguyên" className="py-20" /> : null}
 
           <div className="flex justify-center">
             <Pagination
@@ -224,53 +224,53 @@ export default function AssetsPage() {
         </div>
       </main>
 
-      <Modal title={editingAsset ? "编辑素材" : "新增素材"} open={isAssetOpen} width={980} onCancel={() => setIsAssetOpen(false)} onOk={() => void saveAsset()} okText="保存" cancelText="取消" destroyOnHidden>
+      <Modal title={editingAsset ? "Sửa tài nguyên" : "Thêm tài nguyên"} open={isAssetOpen} width={980} onCancel={() => setIsAssetOpen(false)} onOk={() => void saveAsset()} okText="Lưu" cancelText="Hủy" destroyOnHidden>
         <div className="grid gap-6 pt-1 lg:grid-cols-[minmax(0,1fr)_320px]">
           <Form form={form} layout="vertical" requiredMark={false} initialValues={{ kind: "text", tags: [] }}>
-            <Form.Item name="kind" label="类型">
-              <Select options={[{ label: "文本", value: "text" }, { label: "图片", value: "image" }]} onChange={(value) => setFormKind(value)} />
+            <Form.Item name="kind" label="Loại">
+              <Select options={[{ label: "Văn bản", value: "text" }, { label: "Hình ảnh", value: "image" }]} onChange={(value) => setFormKind(value)} />
             </Form.Item>
-            <Form.Item name="title" label="标题" rules={[{ required: true, message: "请输入标题" }]}>
-              <Input size="large" placeholder="给素材起一个容易检索的名字" />
+            <Form.Item name="title" label="Tiêu đề" rules={[{ required: true, message: "Vui lòng nhập tiêu đề" }]}>
+              <Input size="large" placeholder="Đặt tên dễ tìm kiếm cho tài nguyên" />
             </Form.Item>
-            <Form.Item name="coverUrl" label="封面 URL">
+            <Form.Item name="coverUrl" label="URL ảnh bìa">
               <Space.Compact className="w-full">
-                <Input placeholder="可粘贴图片 URL，也可以上传本地封面" />
-                <Button icon={<Upload className="size-3.5" />} onClick={() => coverInputRef.current?.click()}>上传</Button>
+                <Input placeholder="Có thể dán URL ảnh hoặc tải lên ảnh bìa" />
+                <Button icon={<Upload className="size-3.5" />} onClick={() => coverInputRef.current?.click()}>Tải lên</Button>
               </Space.Compact>
             </Form.Item>
-            <Form.Item name="tags" label="标签">
-              <Select mode="tags" tokenSeparators={[",", "，"]} placeholder="输入标签后回车" />
+            <Form.Item name="tags" label="Thẻ">
+              <Select mode="tags" tokenSeparators={[",", "，"]} placeholder="Nhập thẻ rồi nhấn Enter" />
             </Form.Item>
             <div className="grid gap-4 sm:grid-cols-2">
-              <Form.Item name="source" label="来源">
-                <Input placeholder="手动添加 / 画布 / 提示词库" />
+              <Form.Item name="source" label="Nguồn">
+                <Input placeholder="Thêm thủ công / Canvas / Thư viện Prompt" />
               </Form.Item>
-              <Form.Item name="note" label="备注">
-                <Input placeholder="可选" />
+              <Form.Item name="note" label="Ghi chú">
+                <Input placeholder="Tùy chọn" />
               </Form.Item>
             </div>
             {formKind === "text" ? (
-              <Form.Item name="content" label="文本内容" rules={[{ required: true, message: "请输入文本内容" }]}>
-                <Input.TextArea rows={8} placeholder="保存提示词、说明文案、参考描述等文本素材" />
+              <Form.Item name="content" label="Nội dung văn bản" rules={[{ required: true, message: "Vui lòng nhập nội dung văn bản" }]}>
+                <Input.TextArea rows={8} placeholder="Lưu prompt, mô tả, tài liệu tham khảo và các tài nguyên văn bản khác" />
               </Form.Item>
             ) : (
-              <Form.Item label="图片内容" required>
+              <Form.Item label="Nội dung hình ảnh" required>
                 <div className="rounded-lg border border-dashed border-stone-300 p-4 dark:border-stone-700">
-                  <Button icon={<Upload className="size-4" />} onClick={() => imageInputRef.current?.click()}>选择图片文件</Button>
-                  {imageDraft ? <Typography.Text type="secondary" className="ml-3 text-xs">{imageDraft.width}x{imageDraft.height} · {formatBytes(imageDraft.bytes)}</Typography.Text> : <Typography.Text type="secondary" className="ml-3 text-xs">未选择图片</Typography.Text>}
+                  <Button icon={<Upload className="size-4" />} onClick={() => imageInputRef.current?.click()}>Chọn file ảnh</Button>
+                  {imageDraft ? <Typography.Text type="secondary" className="ml-3 text-xs">{imageDraft.width}x{imageDraft.height} · {formatBytes(imageDraft.bytes)}</Typography.Text> : <Typography.Text type="secondary" className="ml-3 text-xs">Chưa chọn ảnh</Typography.Text>}
                 </div>
               </Form.Item>
             )}
           </Form>
           <div className="rounded-xl border border-stone-200 bg-stone-50 p-4 dark:border-stone-800 dark:bg-stone-950">
-            <Typography.Text strong>预览</Typography.Text>
+            <Typography.Text strong>Xem trước</Typography.Text>
             <div className="mt-3 overflow-hidden rounded-lg border border-stone-200 bg-background dark:border-stone-800">
-              {coverUrl || imageDraft?.dataUrl ? <img src={coverUrl || imageDraft?.dataUrl} alt="" className="aspect-[4/3] w-full object-cover" /> : <div className="flex aspect-[4/3] items-center justify-center bg-stone-100 p-5 text-center text-sm text-stone-500 dark:bg-stone-900">{content || "暂无封面"}</div>}
+              {coverUrl || imageDraft?.dataUrl ? <img src={coverUrl || imageDraft?.dataUrl} alt="" className="aspect-[4/3] w-full object-cover" /> : <div className="flex aspect-[4/3] items-center justify-center bg-stone-100 p-5 text-center text-sm text-stone-500 dark:bg-stone-900">{content || "Chưa có ảnh bìa"}</div>}
               <div className="p-4">
-                <Typography.Text strong ellipsis className="block">{title || "未命名素材"}</Typography.Text>
+                <Typography.Text strong ellipsis className="block">{title || "Tài nguyên chưa đặt tên"}</Typography.Text>
                 <div className="mt-2 flex flex-wrap gap-1.5">
-                  {tags.length ? tags.map((tag) => <Tag key={tag} className="m-0">{tag}</Tag>) : <Tag className="m-0">未打标签</Tag>}
+                  {tags.length ? tags.map((tag) => <Tag key={tag} className="m-0">{tag}</Tag>) : <Tag className="m-0">Chưa gắn thẻ</Tag>}
                 </div>
               </div>
             </div>
@@ -288,8 +288,8 @@ export default function AssetsPage() {
 
       <AssetDrawer asset={previewAsset} onClose={() => setPreviewAsset(null)} onCopy={copyAssetText} onDownload={downloadImage} />
 
-      <Modal title="删除素材" open={Boolean(deletingAsset)} onCancel={() => setDeletingAsset(null)} onOk={confirmDelete} okText="删除" okButtonProps={{ danger: true }} cancelText="取消">
-        确定删除「{deletingAsset?.title}」吗？删除后会从我的素材中移除。
+      <Modal title="Xóa tài nguyên" open={Boolean(deletingAsset)} onCancel={() => setDeletingAsset(null)} onOk={confirmDelete} okText="Xóa" okButtonProps={{ danger: true }} cancelText="Hủy">
+        Bạn có chắc muốn xóa「{deletingAsset?.title}」? Tài nguyên sẽ bị xóa khỏi danh sách.
       </Modal>
     </div>
   );
@@ -305,7 +305,7 @@ function AssetCard({ asset, onOpen, onEdit, onCopy, onDownload, onDelete }: { as
       styles={{ body: { padding: 0 } }}
       cover={
         <button type="button" className="block w-full text-left" onClick={onOpen}>
-          {cover ? <img src={cover} alt={asset.title} className="aspect-[4/3] w-full object-cover" /> : <div className="flex aspect-[4/3] items-center justify-center bg-stone-100 p-5 text-center text-sm leading-6 text-stone-600 dark:bg-stone-900 dark:text-stone-300">{asset.kind === "text" ? asset.data.content : "暂无封面"}</div>}
+          {cover ? <img src={cover} alt={asset.title} className="aspect-[4/3] w-full object-cover" /> : <div className="flex aspect-[4/3] items-center justify-center bg-stone-100 p-5 text-center text-sm leading-6 text-stone-600 dark:bg-stone-900 dark:text-stone-300">{asset.kind === "text" ? asset.data.content : "Chưa có ảnh bìa"}</div>}
         </button>
       }
     >
@@ -314,25 +314,25 @@ function AssetCard({ asset, onOpen, onEdit, onCopy, onDownload, onDelete }: { as
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <h2 className="line-clamp-1 text-sm font-semibold text-stone-950 dark:text-stone-100">{asset.title}</h2>
-              <Typography.Text type="secondary" className="mt-1 block text-xs">{asset.source || "未标注来源"}</Typography.Text>
+              <Typography.Text type="secondary" className="mt-1 block text-xs">{asset.source || "Chưa ghi nguồn"}</Typography.Text>
             </div>
-            <Tag className="m-0 shrink-0 text-[11px]">{asset.kind === "image" ? "图片" : "文本"}</Tag>
+            <Tag className="m-0 shrink-0 text-[11px]">{asset.kind === "image" ? "Hình ảnh" : "Văn bản"}</Tag>
           </div>
           <Typography.Paragraph type="secondary" ellipsis={{ rows: 3 }} className="!mb-0 !mt-2 !text-xs !leading-5">
             {summary}
           </Typography.Paragraph>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {(asset.tags || []).slice(0, 3).map((tag) => <Tag key={tag} className="m-0 text-[11px]">{tag}</Tag>)}
-            {!asset.tags?.length ? <Tag className="m-0 text-[11px]">无标签</Tag> : null}
+            {!asset.tags?.length ? <Tag className="m-0 text-[11px]">Không có thẻ</Tag> : null}
           </div>
         </div>
       </button>
       <div className="flex items-center gap-2 px-4 pb-4">
-        <Button size="small" onClick={onOpen}>查看</Button>
-        <Button size="small" icon={<PencilLine className="size-3.5" />} onClick={onEdit}>编辑</Button>
-        {asset.kind === "text" ? <Button size="small" icon={<Copy className="size-3.5" />} onClick={() => void onCopy(asset)}>复制</Button> : null}
-        {asset.kind === "image" ? <Button size="small" icon={<Download className="size-3.5" />} onClick={() => onDownload(asset)}>下载</Button> : null}
-        <Button size="small" danger icon={<Trash2 className="size-3.5" />} onClick={onDelete}>删除</Button>
+        <Button size="small" onClick={onOpen}>Xem</Button>
+        <Button size="small" icon={<PencilLine className="size-3.5" />} onClick={onEdit}>Sửa</Button>
+        {asset.kind === "text" ? <Button size="small" icon={<Copy className="size-3.5" />} onClick={() => void onCopy(asset)}>Sao chép</Button> : null}
+        {asset.kind === "image" ? <Button size="small" icon={<Download className="size-3.5" />} onClick={() => onDownload(asset)}>Tải xuống</Button> : null}
+        <Button size="small" danger icon={<Trash2 className="size-3.5" />} onClick={onDelete}>Xóa</Button>
       </div>
     </Card>
   );
@@ -341,25 +341,25 @@ function AssetCard({ asset, onOpen, onEdit, onCopy, onDownload, onDelete }: { as
 function AssetDrawer({ asset, onClose, onCopy, onDownload }: { asset: Asset | null; onClose: () => void; onCopy: (asset: Asset) => void; onDownload: (asset: Asset) => void }) {
   const cover = asset ? asset.coverUrl || (asset.kind === "image" ? asset.data.dataUrl : "") : "";
   return (
-    <Drawer title="素材详情" open={Boolean(asset)} size="large" onClose={onClose}>
+    <Drawer title="Chi tiết tài nguyên" open={Boolean(asset)} size="large" onClose={onClose}>
       {asset ? (
         <div className="space-y-5">
-          {cover ? <Image src={cover} alt={asset.title} className="rounded-lg" /> : <div className="rounded-lg border border-stone-200 bg-stone-50 p-5 text-sm leading-6 text-stone-600 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300">{asset.kind === "text" ? asset.data.content : "暂无封面"}</div>}
+          {cover ? <Image src={cover} alt={asset.title} className="rounded-lg" /> : <div className="rounded-lg border border-stone-200 bg-stone-50 p-5 text-sm leading-6 text-stone-600 dark:border-stone-800 dark:bg-stone-900 dark:text-stone-300">{asset.kind === "text" ? asset.data.content : "Chưa có ảnh bìa"}</div>}
           <div>
             <Typography.Title level={4} className="!mb-2">{asset.title}</Typography.Title>
             <Space size={[4, 4]} wrap>
-              <Tag>{asset.kind === "image" ? "图片" : "文本"}</Tag>
+              <Tag>{asset.kind === "image" ? "Hình ảnh" : "Văn bản"}</Tag>
               {(asset.tags || []).map((tag) => <Tag key={tag}>{tag}</Tag>)}
             </Space>
           </div>
           <div className="rounded-lg border border-stone-200 p-4 dark:border-stone-800">
-            <Typography.Text type="secondary" className="block text-xs">内容</Typography.Text>
+            <Typography.Text type="secondary" className="block text-xs">Nội dung</Typography.Text>
             {asset.kind === "text" ? <Typography.Paragraph className="mt-2 whitespace-pre-wrap">{asset.data.content}</Typography.Paragraph> : <Typography.Text className="mt-2 block">{asset.data.width}x{asset.data.height} · {formatBytes(asset.data.bytes)} · {asset.data.mimeType}</Typography.Text>}
           </div>
-          {asset.note ? <div><Typography.Text type="secondary">备注</Typography.Text><Typography.Paragraph className="mt-1">{asset.note}</Typography.Paragraph></div> : null}
+          {asset.note ? <div><Typography.Text type="secondary">Ghi chú</Typography.Text><Typography.Paragraph className="mt-1">{asset.note}</Typography.Paragraph></div> : null}
           <Space>
-            {asset.kind === "text" ? <Button type="primary" icon={<Copy className="size-4" />} onClick={() => onCopy(asset)}>复制文本</Button> : null}
-            {asset.kind === "image" ? <Button type="primary" icon={<Download className="size-4" />} onClick={() => onDownload(asset)}>下载图片</Button> : null}
+            {asset.kind === "text" ? <Button type="primary" icon={<Copy className="size-4" />} onClick={() => onCopy(asset)}>Sao chép văn bản</Button> : null}
+            {asset.kind === "image" ? <Button type="primary" icon={<Download className="size-4" />} onClick={() => onDownload(asset)}>Tải ảnh</Button> : null}
           </Space>
         </div>
       ) : null}

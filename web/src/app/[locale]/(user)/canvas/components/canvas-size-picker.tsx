@@ -44,7 +44,7 @@ export function CanvasSizePicker({ value, className, onChange }: CanvasSizePicke
         className={cn("canvas-compact-control canvas-control-select h-full w-full")}
         value={value || undefined}
         searchValue={search}
-        placeholder="比例"
+        placeholder="Tỷ lệ"
         options={options}
         popupMatchSelectWidth={false}
         popupRender={(menu) => <div onMouseDown={(event) => event.stopPropagation()} onPointerDown={(event) => event.stopPropagation()}>{menu}</div>}

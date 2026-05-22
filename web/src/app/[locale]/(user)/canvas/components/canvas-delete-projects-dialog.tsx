@@ -21,13 +21,13 @@ export function CanvasDeleteProjectsDialog() {
 
   return (
     <Modal
-      title="删除画布？"
+      title="Xóa canvas?"
       open={ids.length > 0}
       centered
       onCancel={() => setDeleteIds([])}
-      footer={<><Button onClick={() => setDeleteIds([])}>取消</Button><Button danger type="primary" onClick={confirm}>删除</Button></>}
+      footer={<><Button onClick={() => setDeleteIds([])}>Hủy</Button><Button danger type="primary" onClick={confirm}>Xóa</Button></>}
     >
-      <p className="text-sm text-stone-500">将删除 {ids.length} 个画布，里面的节点和连线也会一起移除。</p>
+      <p className="text-sm text-stone-500">Sẽ xóa {ids.length} canvas, các nút và kết nối bên trong cũng sẽ bị xóa.</p>
     </Modal>
   );
 }

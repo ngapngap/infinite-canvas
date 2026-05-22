@@ -485,7 +485,7 @@ function SettingTitle({ children, color }: { children: string; color: string }) 
 }
 
 function qualityLabel(value: string) {
-  return ({ auto: "自动", high: "高", medium: "中", low: "低" } as Record<string, string>)[value] || value;
+  return ({ auto: "Tự động", high: "Cao", medium: "Trung bình", low: "Thấp" } as Record<string, string>)[value] || value;
 }
 
 function AssistantMessages({
@@ -575,7 +575,7 @@ function MessageReferences({ message }: { message: CanvasAssistantMessage }) {
 function AssistantReferenceChip({ item, onRemove }: { item: CanvasAssistantReference; onRemove?: () => void }) {
   const theme = canvasThemes[useThemeStore((state) => state.theme)];
   const t = useTranslations("canvas.assistant");
-  const text = (item.text || item.title).replace(/\s+/g, " ").trim().slice(0, 1) || "文";
+  const text = (item.text || item.title).replace(/\s+/g, " ").trim().slice(0, 1) || "T";
   return (
     <div className="group/chip relative inline-flex h-8 max-w-[150px] shrink-0 items-center gap-1.5 rounded-lg text-sm" style={{ color: theme.node.text }}>
       {item.dataUrl ? <img src={item.dataUrl} alt="" className="size-8 rounded-lg object-cover" /> : <span className="grid size-8 place-items-center rounded-lg border text-sm font-medium" style={{ background: theme.node.panel, borderColor: theme.node.activeStroke }}>{text}</span>}
@@ -625,5 +625,5 @@ async function buildChatMessages(messages: CanvasAssistantMessage[]): Promise<Ch
 
 function createSession(): CanvasAssistantSession {
   const now = new Date().toISOString();
-  return { id: nanoid(), title: "新对话", messages: [], createdAt: now, updatedAt: now };
+  return { id: nanoid(), title: "Cuộc trò chuyện mới", messages: [], createdAt: now, updatedAt: now };
 }

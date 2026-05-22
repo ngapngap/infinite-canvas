@@ -13,7 +13,7 @@ export type Prompt = {
   updatedAt: string;
 };
 
-export const ALL_PROMPTS_OPTION = "全部";
+export const ALL_PROMPTS_OPTION = "Tất cả";
 
 export type PromptListResponse = {
   items: Prompt[];

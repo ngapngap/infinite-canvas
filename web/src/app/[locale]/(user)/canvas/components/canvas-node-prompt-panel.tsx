@@ -67,7 +67,7 @@ export function CanvasNodePromptPanel({ node, isRunning, onPromptChange, onConfi
         }}
         className="thin-scrollbar h-24 w-full resize-none rounded-xl border px-3 py-2 text-sm leading-5 outline-none"
         style={{ background: theme.node.fill, borderColor: theme.node.stroke, color: theme.node.text }}
-        placeholder={mode === "image" ? hasImageContent ? "请输入你想要把这张图修改成什么" : "描述要生成的图片内容" : hasTextContent ? "请输入你想要将本段文本修改成什么" : "请输入你想要生成的文本内容"}
+        placeholder={mode === "image" ? hasImageContent ? "Mô tả bạn muốn chỉnh sửa ảnh này thành gì" : "Mô tả nội dung ảnh cần tạo" : hasTextContent ? "Mô tả bạn muốn chỉnh sửa văn bản này thành gì" : "Mô tả nội dung văn bản cần tạo"}
       />
 
       <div className="mt-2 flex min-w-0 items-center justify-between gap-2">
@@ -88,7 +88,7 @@ export function CanvasNodePromptPanel({ node, isRunning, onPromptChange, onConfi
           disabled={isRunning || !prompt.trim()}
           onClick={submit}
           icon={isRunning ? <LoaderCircle className="size-4 animate-spin" /> : <ArrowUp className="size-4" />}
-          aria-label="生成"
+          aria-label="Tạo"
         />
       </div>
     </div>

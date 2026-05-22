@@ -153,15 +153,15 @@ function ConnectionCreateMenu({
       onPointerDown={(event) => event.stopPropagation()}
     >
       <div className="mb-2 flex items-center justify-between px-1">
-        <span className="text-sm font-medium" style={{ color: theme.node.muted }}>引用该节点生成</span>
-        <button type="button" className="grid size-7 place-items-center rounded-lg text-base opacity-55 transition hover:bg-white/10 hover:opacity-100" onClick={onClose} aria-label="关闭">
+        <span className="text-sm font-medium" style={{ color: theme.node.muted }}>Tạo từ nút này</span>
+        <button type="button" className="grid size-7 place-items-center rounded-lg text-base opacity-55 transition hover:bg-white/10 hover:opacity-100" onClick={onClose} aria-label="Đóng">
           ×
         </button>
       </div>
       <div className="grid gap-1">
-        <ConnectionCreateOption icon={<List className="size-5" />} title="文本生成" description="脚本、广告词、品牌文案" onClick={() => onCreate(CanvasNodeType.Text)} />
-        <ConnectionCreateOption icon={<ImageIcon className="size-5" />} title="图片生成" onClick={() => onCreate(CanvasNodeType.Image)} />
-        <ConnectionCreateOption icon={<Settings2 className="size-5" />} title="配置节点" description="模型、尺寸、数量和输入顺序" onClick={() => onCreate(CanvasNodeType.Config)} />
+        <ConnectionCreateOption icon={<List className="size-5" />} title="Tạo văn bản" description="Kịch bản, quảng cáo, nội dung thương hiệu" onClick={() => onCreate(CanvasNodeType.Text)} />
+        <ConnectionCreateOption icon={<ImageIcon className="size-5" />} title="Tạo hình ảnh" onClick={() => onCreate(CanvasNodeType.Image)} />
+        <ConnectionCreateOption icon={<Settings2 className="size-5" />} title="Nút cấu hình" description="Mô hình, kích thước, số lượng và thứ tự đầu vào" onClick={() => onCreate(CanvasNodeType.Config)} />
       </div>
     </div>
   );
@@ -465,7 +465,7 @@ function InfiniteCanvasPage() {
 
     const connection = normalizeConnection(current.nodeId, targetNodeId, nodesRef.current, current.handleType);
     if (!connection) {
-      message.warning("配置节点之间不能连接");
+      message.warning("Không thể kết nối giữa các nút cấu hình");
       return;
     }
     const { fromNodeId, toNodeId } = connection;
@@ -481,7 +481,7 @@ function InfiniteCanvasPage() {
     const newNode = createCanvasNode(type, pending.position, metadata);
     const connection = normalizeConnection(pending.connection.nodeId, newNode.id, [...nodesRef.current, newNode], pending.connection.handleType);
     if (!connection) {
-      message.warning("配置节点之间不能连接");
+      message.warning("Không thể kết nối giữa các nút cấu hình");
       return;
     }
     setNodes((prev) => [...prev, newNode]);
@@ -804,7 +804,7 @@ function InfiniteCanvasPage() {
   }, [applyHistory]);
 
   const createAndOpenProject = useCallback(() => {
-    const id = createProject(`无限画布 ${useCanvasStore.getState().projects.length + 1}`);
+    const id = createProject(`Ram Canvas ${useCanvasStore.getState().projects.length + 1}`);
     router.push(`/canvas/${id}`);
   }, [createProject, router]);
 
@@ -1066,7 +1066,7 @@ function InfiniteCanvasPage() {
 
     const node = {
       ...createCanvasNode(CanvasNodeType.Text, getCanvasCenter(), { content: trimmed, status: NODE_STATUS_SUCCESS }),
-      title: trimmed.slice(0, 32) || "剪切板文本",
+      title: trimmed.slice(0, 32) || "Văn bản clipboard",
     };
 
     setNodes((prev) => [...prev, node]);
@@ -1088,12 +1088,12 @@ function InfiniteCanvasPage() {
       const blob = await imageItem.getType(imageType);
       const file = new File([blob], "clipboard-image.png", { type: imageType });
       void createImageFileNode(file, getCanvasCenter());
-      message.success("已从剪切板添加图片");
+      message.success("Đã thêm ảnh từ clipboard");
       return;
     }
 
     const text = await navigator.clipboard.readText();
-    if (createTextNodeFromClipboard(text)) message.success("已从剪切板添加文本");
+    if (createTextNodeFromClipboard(text)) message.success("Đã thêm văn bản từ clipboard");
   }, [createImageFileNode, createTextNodeFromClipboard, getCanvasCenter, message]);
 
   useEffect(() => {
@@ -1270,15 +1270,15 @@ function InfiniteCanvasPage() {
   const saveNodeAsset = useCallback(async (node: CanvasNodeData) => {
     if (node.type === CanvasNodeType.Text) {
       const content = node.metadata?.content?.trim();
-      if (!content) return message.error("没有可保存的文本");
-      addAsset({ kind: "text", title: node.metadata?.prompt?.slice(0, 24) || "画布文本", coverUrl: "", tags: [], source: "Canvas", data: { content }, metadata: { source: "canvas", nodeId: node.id } });
-      message.success("已加入我的素材");
+      if (!content) return message.error("Không có văn bản để lưu");
+      addAsset({ kind: "text", title: node.metadata?.prompt?.slice(0, 24) || "Văn bản canvas", coverUrl: "", tags: [], source: "Canvas", data: { content }, metadata: { source: "canvas", nodeId: node.id } });
+      message.success("Đã thêm vào tài nguyên");
       return;
     }
-    if (!node.metadata?.content) return message.error("没有可保存的图片");
+    if (!node.metadata?.content) return message.error("Không có ảnh để lưu");
     const dataUrl = node.metadata.storageKey ? "" : node.metadata.content;
-    addAsset({ kind: "image", title: node.metadata?.prompt?.slice(0, 24) || "画布图片", coverUrl: node.metadata.content, tags: [], source: "Canvas", data: { dataUrl, storageKey: node.metadata.storageKey, width: node.metadata.naturalWidth || node.width, height: node.metadata.naturalHeight || node.height, bytes: node.metadata.bytes || getDataUrlByteSize(dataUrl), mimeType: node.metadata.mimeType || "image/png" }, metadata: { source: "canvas", nodeId: node.id, prompt: node.metadata?.prompt } });
-    message.success("已加入我的素材");
+    addAsset({ kind: "image", title: node.metadata?.prompt?.slice(0, 24) || "Ảnh canvas", coverUrl: node.metadata.content, tags: [], source: "Canvas", data: { dataUrl, storageKey: node.metadata.storageKey, width: node.metadata.naturalWidth || node.width, height: node.metadata.naturalHeight || node.height, bytes: node.metadata.bytes || getDataUrlByteSize(dataUrl), mimeType: node.metadata.mimeType || "image/png" }, metadata: { source: "canvas", nodeId: node.id, prompt: node.metadata?.prompt } });
+    message.success("Đã thêm vào tài nguyên");
   }, [addAsset, message]);
 
   const cropImageNode = useCallback(async (node: CanvasNodeData, crop: CanvasImageCropRect) => {
@@ -1338,7 +1338,7 @@ function InfiniteCanvasPage() {
       const size = fitImageNodeSize(uploaded.width, uploaded.height, imageConfig.width, imageConfig.height);
       setNodes((prev) => prev.map((item) => item.id === childId ? { ...item, width: size.width, height: size.height, metadata: { ...item.metadata, ...imageMetadata(uploaded), prompt, ...generationMetadata } } : item));
     } catch (error) {
-      const errorDetails = error instanceof Error ? error.message : "生成失败";
+      const errorDetails = error instanceof Error ? error.message : "Tạo thất bại";
       setNodes((prev) => prev.map((item) => item.id === childId ? { ...item, metadata: { ...item.metadata, status: NODE_STATUS_ERROR, errorDetails } } : item));
     } finally {
       setRunningNodeId(null);
@@ -1405,7 +1405,7 @@ function InfiniteCanvasPage() {
       (containerRef.current?.getBoundingClientRect().top || 0) + size.height / 2,
     );
     void createImageFileNode(file, position);
-    message.success("已从剪切板添加图片");
+    message.success("Đã thêm ảnh từ clipboard");
   }, [createImageFileNode, message, screenToCanvas, size.height, size.width]);
 
   const handleAssistantSessionsChange = useCallback((sessions: CanvasAssistantSession[], activeId: string | null) => {
@@ -1414,7 +1414,7 @@ function InfiniteCanvasPage() {
   }, []);
 
   const startTitleEditing = useCallback(() => {
-    setTitleDraft(currentProject?.title || "未命名画布");
+    setTitleDraft(currentProject?.title || "Canvas chưa đặt tên");
     setTitleEditing(true);
   }, [currentProject?.title]);
 
@@ -1442,7 +1442,7 @@ function InfiniteCanvasPage() {
       setRunningNodeId(nodeId);
       const sourceTextContent = sourceNode?.type === CanvasNodeType.Text ? sourceNode.metadata?.content?.trim() || "" : "";
       const editingTextNode = mode === "text" && Boolean(sourceTextContent);
-      const generationContext = await hydrateNodeGenerationContext(buildNodeGenerationContext(nodeId, nodesRef.current, connectionsRef.current, editingTextNode ? `请根据要求修改以下文本。\n\n原文：\n${sourceTextContent}\n\n修改要求：\n${prompt}` : prompt));
+      const generationContext = await hydrateNodeGenerationContext(buildNodeGenerationContext(nodeId, nodesRef.current, connectionsRef.current, editingTextNode ? `Vui lòng chỉnh sửa văn bản sau theo yêu cầu.\n\nVăn bản gốc：\n${sourceTextContent}\n\nYêu cầu chỉnh sửa：\n${prompt}` : prompt));
       const effectivePrompt = generationContext.prompt.trim();
       const markSourceStatus = sourceNode?.type !== CanvasNodeType.Image && !editingTextNode;
       if (!effectivePrompt && mode === "text") {
@@ -1559,17 +1559,17 @@ function InfiniteCanvasPage() {
               if (isConfigNode) setNodes((prev) => prev.map((node) => node.id === nodeId ? { ...node, metadata: { ...node.metadata, status: NODE_STATUS_SUCCESS, errorDetails: undefined } } : node));
               return true;
             } catch (error) {
-              const errorDetails = error instanceof Error ? error.message : "生成失败";
+              const errorDetails = error instanceof Error ? error.message : "Tạo thất bại";
               hasFailure = true;
               setNodes((prev) => prev.map((node) => node.id === targetId ? { ...node, metadata: { ...node.metadata, status: NODE_STATUS_ERROR, errorDetails } } : node));
               return false;
             }
           }));
-          if (hasFailure) message.error(hasSuccess ? "部分图片生成失败" : "全部图片生成失败");
+          if (hasFailure) message.error(hasSuccess ? "Một số ảnh tạo thất bại" : "Tất cả ảnh tạo thất bại");
           setNodes((prev) => prev.map((node) =>
-            node.id === nodeId && isConfigNode ? { ...node, metadata: { ...node.metadata, status: hasSuccess ? NODE_STATUS_SUCCESS : NODE_STATUS_ERROR, errorDetails: hasSuccess ? undefined : "全部图片生成失败" } }
-              : node.id === nodeId && isEmptyImageNode ? { ...node, metadata: { ...node.metadata, status: hasSuccess ? NODE_STATUS_SUCCESS : NODE_STATUS_ERROR, errorDetails: hasSuccess ? undefined : "全部图片生成失败" } }
-              : node.id === rootId && !hasSuccess ? { ...node, metadata: { ...node.metadata, status: NODE_STATUS_ERROR, errorDetails: "全部图片生成失败" } }
+            node.id === nodeId && isConfigNode ? { ...node, metadata: { ...node.metadata, status: hasSuccess ? NODE_STATUS_SUCCESS : NODE_STATUS_ERROR, errorDetails: hasSuccess ? undefined : "Tất cả ảnh tạo thất bại" } }
+              : node.id === nodeId && isEmptyImageNode ? { ...node, metadata: { ...node.metadata, status: hasSuccess ? NODE_STATUS_SUCCESS : NODE_STATUS_ERROR, errorDetails: hasSuccess ? undefined : "Tất cả ảnh tạo thất bại" } }
+              : node.id === rootId && !hasSuccess ? { ...node, metadata: { ...node.metadata, status: NODE_STATUS_ERROR, errorDetails: "Tất cả ảnh tạo thất bại" } }
                 : node,
           ));
           return;
@@ -1621,7 +1621,7 @@ function InfiniteCanvasPage() {
           ),
         );
       } catch (error) {
-        const errorDetails = error instanceof Error ? error.message : "生成失败";
+        const errorDetails = error instanceof Error ? error.message : "Tạo thất bại";
         message.error(errorDetails);
         setNodes((prev) =>
           prev.map((node) =>
@@ -1654,7 +1654,7 @@ function InfiniteCanvasPage() {
       const context = hasSavedImageMetadata ? null : await hydrateNodeGenerationContext(buildNodeGenerationContext(sourceNode.id, nodesRef.current, connectionsRef.current, sourceNode.metadata?.prompt || node.metadata?.prompt || ""));
       const prompt = (savedImageMetadata?.prompt || context?.prompt || "").trim();
       if (!prompt) {
-        message.warning("找不到提示词，无法重试");
+        message.warning("Không tìm thấy prompt, không thể thử lại");
         return;
       }
       const generationType = savedImageMetadata?.generationType;
@@ -1665,8 +1665,8 @@ function InfiniteCanvasPage() {
           ? context?.referenceImages.length ? context.referenceImages : sourceNodeReferenceImages(batchRoot || sourceNode)
           : [];
       if (useReferenceImages && !retryReferenceImages) {
-        message.error("参考图片已丢失，无法继续重试");
-        setNodes((prev) => prev.map((item) => item.id === node.id ? { ...item, metadata: { ...item.metadata, status: NODE_STATUS_ERROR, errorDetails: "参考图片已丢失，无法继续重试" } } : item));
+        message.error("Ảnh tham chiếu đã mất, không thể thử lại");
+        setNodes((prev) => prev.map((item) => item.id === node.id ? { ...item, metadata: { ...item.metadata, status: NODE_STATUS_ERROR, errorDetails: "Ảnh tham chiếu đã mất, không thể thử lại" } } : item));
         return;
       }
 
@@ -1702,7 +1702,7 @@ function InfiniteCanvasPage() {
           metadata: { ...item.metadata, ...imageMetadata(uploadedImage), prompt, ...generationMetadata },
         } : item));
       } catch (error) {
-        const errorDetails = error instanceof Error ? error.message : "生成失败";
+        const errorDetails = error instanceof Error ? error.message : "Tạo thất bại";
         message.error(errorDetails);
         setNodes((prev) => prev.map((item) => item.id === node.id ? { ...item, metadata: { ...item.metadata, status: NODE_STATUS_ERROR, errorDetails } } : item));
       } finally {
@@ -1715,7 +1715,7 @@ function InfiniteCanvasPage() {
   const generateImageFromTextNode = useCallback((node: CanvasNodeData) => {
     const prompt = (node.metadata?.content || node.metadata?.prompt || "").trim();
     if (!prompt) {
-      message.warning("文本节点为空，无法生图");
+      message.warning("Nút văn bản trống, không thể tạo ảnh");
       return;
     }
     const sourceNode = nodesRef.current.find((item) => item.id === node.id);
@@ -1799,7 +1799,7 @@ function InfiniteCanvasPage() {
     <main className="flex h-full min-h-0 overflow-hidden" style={{ background: theme.canvas.background, color: theme.node.text }}>
       <section className="relative min-w-0 flex-1 overflow-hidden">
         <CanvasTopBar
-          title={currentProject?.title || "未命名画布"}
+          title={currentProject?.title || "Canvas chưa đặt tên"}
           titleDraft={titleDraft}
           isTitleEditing={titleEditing}
           onTitleDraftChange={setTitleDraft}
@@ -2042,18 +2042,18 @@ function InfiniteCanvasPage() {
         ) : null}
 
         <Modal
-          title="清空画布？"
+          title="Xóa toàn bộ canvas?"
           open={clearConfirmOpen}
           centered
           onCancel={() => setClearConfirmOpen(false)}
           footer={
             <>
-              <Button onClick={() => setClearConfirmOpen(false)}>取消</Button>
-              <Button danger type="primary" onClick={clearCanvas}>清空</Button>
+              <Button onClick={() => setClearConfirmOpen(false)}>Hủy</Button>
+              <Button danger type="primary" onClick={clearCanvas}>Xóa hết</Button>
             </>
           }
         >
-          <p className="text-sm opacity-60">这会删除当前画布上的所有节点和连线。</p>
+          <p className="text-sm opacity-60">Thao tác này sẽ xóa tất cả nút và kết nối trên canvas hiện tại.</p>
         </Modal>
 
         <AssetPickerModal
@@ -2154,16 +2154,16 @@ function CanvasTopBar({
           trigger={["click"]}
           menu={{
             items: [
-              { key: "home", icon: <Home className="size-4" />, label: "主页", onClick: onHome },
-              { key: "projects", icon: <Images className="size-4" />, label: "我的画布", onClick: onProjects },
+              { key: "home", icon: <Home className="size-4" />, label: "Trang chủ", onClick: onHome },
+              { key: "projects", icon: <Images className="size-4" />, label: "Canvas của tôi", onClick: onProjects },
               { type: "divider" },
-              { key: "new", icon: <Plus className="size-4" />, label: "新建画布", onClick: onCreateProject },
-              { key: "delete", danger: true, icon: <Trash2 className="size-4" />, label: "删除当前画布", onClick: onDeleteProject },
+              { key: "new", icon: <Plus className="size-4" />, label: "Tạo canvas mới", onClick: onCreateProject },
+              { key: "delete", danger: true, icon: <Trash2 className="size-4" />, label: "Xóa canvas hiện tại", onClick: onDeleteProject },
               { type: "divider" },
-              { key: "import", icon: <Upload className="size-4" />, label: "导入图片", onClick: onImportImage },
+              { key: "import", icon: <Upload className="size-4" />, label: "Nhập ảnh", onClick: onImportImage },
               { type: "divider" },
-              { key: "undo", disabled: !canUndo, icon: <Undo2 className="size-4" />, label: <MenuLabel text="撤销" shortcut="⌘ Z" />, onClick: onUndo },
-              { key: "redo", disabled: !canRedo, icon: <Redo2 className="size-4" />, label: <MenuLabel text="重做" shortcut="⌘ ⇧ Z / ⌘ Y" />, onClick: onRedo },
+              { key: "undo", disabled: !canUndo, icon: <Undo2 className="size-4" />, label: <MenuLabel text="Hoàn tác" shortcut="⌘ Z" />, onClick: onUndo },
+              { key: "redo", disabled: !canRedo, icon: <Redo2 className="size-4" />, label: <MenuLabel text="Làm lại" shortcut="⌘ ⇧ Z / ⌘ Y" />, onClick: onRedo },
             ],
           }}
         >
@@ -2171,7 +2171,7 @@ function CanvasTopBar({
             type="button"
             className="grid size-9 place-items-center rounded-full transition hover:bg-black/5 dark:hover:bg-white/10"
             style={{ color: theme.node.text }}
-            aria-label="打开画布菜单"
+            aria-label="Mở menu canvas"
           >
             <Menu className="size-5" />
           </button>
@@ -2192,7 +2192,7 @@ function CanvasTopBar({
               style={{ color: theme.node.text }}
             />
           ) : (
-            <button type="button" className="max-w-[280px] truncate border-b border-dashed border-transparent text-left text-lg font-semibold tracking-normal transition hover:border-current" onDoubleClick={onStartTitleEditing} title="双击修改画布名称">
+            <button type="button" className="max-w-[280px] truncate border-b border-dashed border-transparent text-left text-lg font-semibold tracking-normal transition hover:border-current" onDoubleClick={onStartTitleEditing} title="Nhấp đúp để đổi tên canvas">
               {title}
             </button>
           )}
@@ -2218,27 +2218,27 @@ function CanvasTopBar({
               icon={<MessageSquare className="size-4" />}
               onClick={onExpandAssistant}
             >
-              助手
+              Trợ lý
             </Button>
           </>
         ) : null}
       </div>
     </div>
-    <Modal title="快捷键" open={shortcutsOpen} onCancel={() => setShortcutsOpen(false)} footer={null} centered>
+    <Modal title="Phím tắt" open={shortcutsOpen} onCancel={() => setShortcutsOpen(false)} footer={null} centered>
       <div className="space-y-2 border-t pt-4 text-sm" style={{ borderColor: theme.node.stroke }}>
-        <Shortcut keys={["拖动画布"]} value="平移视图" />
-        <Shortcut keys={["滚轮"]} value="缩放画布" />
-        <Shortcut keys={["缩放滑杆"]} value="精确调整缩放" />
-        <Shortcut keys={["Ctrl / Cmd", "拖动"]} value="框选多个节点" />
-        <Shortcut keys={["Shift / Ctrl / Cmd", "点击"]} value="追加选择节点" />
-        <Shortcut keys={["Ctrl / Cmd", "A"]} value="全选节点" />
-        <Shortcut keys={["Ctrl / Cmd", "C / V"]} value="复制 / 粘贴节点，或粘贴剪切板文本/图片" />
-        <Shortcut keys={["Ctrl / Cmd", "Z"]} value="撤销" />
-        <Shortcut keys={["Ctrl / Cmd", "Shift", "Z"]} value="重做" />
-        <Shortcut keys={["Ctrl / Cmd", "Y"]} value="重做" />
-        <Shortcut keys={["Delete / Backspace"]} value="删除选中" />
-        <Shortcut keys={["Esc"]} value="取消选择并关闭浮层" />
-        <Shortcut keys={["拖入图片"]} value="上传到画布" />
+        <Shortcut keys={["Kéo canvas"]} value="Di chuyển góc nhìn" />
+        <Shortcut keys={["Con lăn"]} value="Thu phóng canvas" />
+        <Shortcut keys={["Thanh trượt thu phóng"]} value="Điều chỉnh thu phóng chính xác" />
+        <Shortcut keys={["Ctrl / Cmd", "Kéo"]} value="Khung chọn nhiều nút" />
+        <Shortcut keys={["Shift / Ctrl / Cmd", "Nhấp"]} value="Thêm chọn nút" />
+        <Shortcut keys={["Ctrl / Cmd", "A"]} value="Chọn tất cả nút" />
+        <Shortcut keys={["Ctrl / Cmd", "C / V"]} value="Sao chép / Dán nút, hoặc dán văn bản/ảnh từ clipboard" />
+        <Shortcut keys={["Ctrl / Cmd", "Z"]} value="Hoàn tác" />
+        <Shortcut keys={["Ctrl / Cmd", "Shift", "Z"]} value="Làm lại" />
+        <Shortcut keys={["Ctrl / Cmd", "Y"]} value="Làm lại" />
+        <Shortcut keys={["Delete / Backspace"]} value="Xóa mục đã chọn" />
+        <Shortcut keys={["Esc"]} value="Bỏ chọn và đóng popup" />
+        <Shortcut keys={["Kéo thả ảnh"]} value="Tải lên canvas" />
       </div>
     </Modal>
     </>
@@ -2378,7 +2378,7 @@ function buildGenerationConfig(config: AiConfig, node: CanvasNodeData | undefine
 
 function resetInterruptedGeneration(nodes: CanvasNodeData[]) {
   return nodes.map((node) => node.metadata?.status === "loading"
-    ? { ...node, metadata: { ...node.metadata, status: "error" as const, errorDetails: "页面刷新后生成已中断，请重新生成。" } }
+    ? { ...node, metadata: { ...node.metadata, status: "error" as const, errorDetails: "Quá trình tạo đã bị gián đoạn sau khi tải lại trang, vui lòng tạo lại." } }
     : node);
 }
 
@@ -2423,11 +2423,11 @@ function isHiddenBatchConnectionEndpoint(node: CanvasNodeData, nodes: CanvasNode
 }
 
 function buildAngleLabel(params: CanvasImageAngleParams) {
-  const horizontal = params.horizontalAngle === 0 ? "正面视角" : params.horizontalAngle > 0 ? `向右旋转 ${params.horizontalAngle} 度` : `向左旋转 ${Math.abs(params.horizontalAngle)} 度`;
-  const pitch = params.pitchAngle === 0 ? "水平视角" : params.pitchAngle > 0 ? `俯视 ${params.pitchAngle} 度` : `仰视 ${Math.abs(params.pitchAngle)} 度`;
-  return `AI 多角度：${horizontal}，${pitch}，镜头距离 ${params.cameraDistance.toFixed(1)}，${params.wideAngle ? "广角" : "标准"}镜头`;
+  const horizontal = params.horizontalAngle === 0 ? "Góc nhìn chính diện" : params.horizontalAngle > 0 ? `Xoay phải ${params.horizontalAngle} độ` : `Xoay trái ${Math.abs(params.horizontalAngle)} độ`;
+  const pitch = params.pitchAngle === 0 ? "Góc nhìn ngang" : params.pitchAngle > 0 ? `Nhìn từ trên ${params.pitchAngle} độ` : `Nhìn từ dưới ${Math.abs(params.pitchAngle)} độ`;
+  return `AI đa góc：${horizontal}，${pitch}，khoảng cách ống kính ${params.cameraDistance.toFixed(1)}，ống kính ${params.wideAngle ? "Góc rộng" : "Tiêu chuẩn"}`;
 }
 
 function buildAnglePrompt(params: CanvasImageAngleParams) {
-  return `基于参考图重新生成同一主体的新视角，保持主体、颜色、材质和画面风格一致，不要只做透视变形。${buildAngleLabel(params)}。`;
+  return `Tạo lại góc nhìn mới của cùng chủ thể dựa trên ảnh tham chiếu, giữ nguyên chủ thể, màu sắc, chất liệu và phong cách hình ảnh, không chỉ biến dạng phối cảnh. ${buildAngleLabel(params)}.`;
 }

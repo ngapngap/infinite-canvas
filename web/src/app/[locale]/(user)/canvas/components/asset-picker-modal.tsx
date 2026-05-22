@@ -32,7 +32,7 @@ export function AssetPickerModal({ open, defaultTab = "my-assets", onInsert, onC
 
   return (
     <Modal
-      title="选择素材"
+      title="Chọn tài nguyên"
       open={open}
       onCancel={onClose}
       footer={null}
@@ -44,8 +44,8 @@ export function AssetPickerModal({ open, defaultTab = "my-assets", onInsert, onC
         activeKey={activeTab}
         onChange={(key) => setActiveTab(key as AssetPickerTab)}
         items={[
-          { key: "my-assets", label: "我的素材", children: <MyAssetsTab onInsert={onInsert} /> },
-          { key: "library", label: "素材库", children: <LibraryTab onInsert={onInsert} /> },
+          { key: "my-assets", label: "Tài nguyên của tôi", children: <MyAssetsTab onInsert={onInsert} /> },
+          { key: "library", label: "Thư viện tài nguyên", children: <LibraryTab onInsert={onInsert} /> },
         ]}
       />
     </Modal>
@@ -55,9 +55,9 @@ export function AssetPickerModal({ open, defaultTab = "my-assets", onInsert, onC
 const PAGE_SIZE = 8;
 
 const kindOptions = [
-  { label: "全部", value: "all" },
-  { label: "文本", value: "text" },
-  { label: "图片", value: "image" },
+  { label: "Tất cả", value: "all" },
+  { label: "Văn bản", value: "text" },
+  { label: "Hình ảnh", value: "image" },
 ];
 
 function LibraryTab({ onInsert }: { onInsert: (payload: InsertAssetPayload) => void }) {
@@ -86,7 +86,7 @@ function LibraryTab({ onInsert }: { onInsert: (payload: InsertAssetPayload) => v
         onInsert({ kind: "image", dataUrl, title: asset.title });
       }
     } catch {
-      message.error("插入失败");
+      message.error("Chèn thất bại");
     } finally {
       setInserting(null);
     }
@@ -99,13 +99,13 @@ function LibraryTab({ onInsert }: { onInsert: (payload: InsertAssetPayload) => v
           className="w-56"
           size="small"
           prefix={<Search className="size-3.5 text-stone-400" />}
-          placeholder="搜索素材"
+          placeholder="Tìm tài nguyên"
           value={keyword}
           allowClear
           onChange={(e) => { setPage(1); setKeyword(e.target.value); }}
         />
         <div className="flex gap-1.5">
-          {[{ label: "全部", value: "" }, { label: "文本", value: "text" }, { label: "图片", value: "image" }].map((opt) => (
+          {[{ label: "Tất cả", value: "" }, { label: "Văn bản", value: "text" }, { label: "Hình ảnh", value: "image" }].map((opt) => (
             <Tag.CheckableTag
               key={opt.value || "all"}
               checked={kindFilter === opt.value}
@@ -134,7 +134,7 @@ function LibraryTab({ onInsert }: { onInsert: (payload: InsertAssetPayload) => v
           ))}
         </div>
       ) : (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="没有素材" className="py-12" />
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Không có tài nguyên" className="py-12" />
       )}
 
       {total > PAGE_SIZE && (
@@ -164,7 +164,7 @@ function PickerCard({ title, kind, cover, loading, onClick }: { title: string; k
       <div className="p-2.5">
         <div className="flex items-center justify-between gap-2">
           <span className="line-clamp-1 text-xs font-medium text-stone-800 dark:text-stone-200">{title}</span>
-          <Tag className="m-0 shrink-0 text-[10px]">{kind === "image" ? "图片" : "文本"}</Tag>
+          <Tag className="m-0 shrink-0 text-[10px]">{kind === "image" ? "Hình ảnh" : "Văn bản"}</Tag>
         </div>
       </div>
       {loading && (
@@ -173,7 +173,7 @@ function PickerCard({ title, kind, cover, loading, onClick }: { title: string; k
         </div>
       )}
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-stone-950/0 text-sm font-medium text-white opacity-0 transition group-hover:bg-stone-950/55 group-hover:opacity-100">
-        插入
+        Chèn
       </div>
     </button>
   );
@@ -185,7 +185,7 @@ async function remoteImageToDataUrl(url: string) {
   return new Promise<string>((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(new Error("读取图片失败"));
+    reader.onerror = () => reject(new Error("Không thể đọc hình ảnh"));
     reader.readAsDataURL(blob);
   });
 }
@@ -226,7 +226,7 @@ function MyAssetsTab({ onInsert }: { onInsert: (payload: InsertAssetPayload) => 
           className="w-56"
           size="small"
           prefix={<Search className="size-3.5 text-stone-400" />}
-          placeholder="搜索素材"
+          placeholder="Tìm tài nguyên"
           value={keyword}
           allowClear
           onChange={(e) => { setPage(1); setKeyword(e.target.value); }}
@@ -252,7 +252,7 @@ function MyAssetsTab({ onInsert }: { onInsert: (payload: InsertAssetPayload) => 
           ))}
         </div>
       ) : (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="没有素材" className="py-12" />
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="Không có tài nguyên" className="py-12" />
       )}
 
       {filtered.length > PAGE_SIZE && (

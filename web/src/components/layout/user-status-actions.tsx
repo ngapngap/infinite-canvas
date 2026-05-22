@@ -7,7 +7,6 @@ import type { ItemType } from "antd/es/menu/interface";
 import Link from "next/link";
 
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import { VersionReleaseModal } from "@/components/layout/version-release-modal";
 import { cn } from "@/lib/utils";
 import { canvasThemes } from "@/lib/canvas-theme";
 import { useConfigStore } from "@/stores/use-config-store";
@@ -43,7 +42,6 @@ export function UserStatusActions({
   const avatarText = (userName.trim()[0] || "U").toUpperCase();
   const naturalIconClass = "inline-flex size-8 shrink-0 items-center justify-center text-stone-600 transition hover:text-stone-950 dark:text-stone-300 dark:hover:text-white [&_svg]:size-4";
   const iconStyle: CSSProperties | undefined = variant === "canvas" ? { color: canvasTheme.node.text } : undefined;
-  const versionStyle = iconStyle;
   const avatarStyle: CSSProperties | undefined = variant === "canvas" ? { borderColor: canvasTheme.toolbar.border, color: canvasTheme.node.text } : undefined;
   const menuItems: ItemType[] = [
     { key: "user", disabled: true, label: <span className="font-medium text-current">{userName}</span> },
@@ -75,7 +73,6 @@ export function UserStatusActions({
         aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
         title={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
       />
-      <VersionReleaseModal style={versionStyle} />
       <div ref={accountRef}>
         <Dropdown
           open={accountOpen}

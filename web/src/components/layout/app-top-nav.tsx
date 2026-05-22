@@ -11,7 +11,6 @@ import { AppConfigModal } from "@/components/layout/app-config-modal";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
 import { UserStatusActions } from "@/components/layout/user-status-actions";
-import { VersionReleaseModal } from "@/components/layout/version-release-modal";
 import { useConfigStore } from "@/stores/use-config-store";
 import { useThemeStore } from "@/stores/use-theme-store";
 import { useUserStore } from "@/stores/use-user-store";
@@ -106,10 +105,6 @@ export function AppTopNav() {
                     aria-label={theme === "dark" ? t("switchToLight") : t("switchToDark")}
                     title={theme === "dark" ? t("switchToLight") : t("switchToDark")}
                   />
-                  <VersionReleaseModal />
-                  <Link href="/login" className="text-sm font-medium text-stone-600 underline-offset-4 transition hover:text-stone-950 hover:underline dark:text-stone-300 dark:hover:text-stone-100">
-                    {t("login")}
-                  </Link>
                 </>
               )}
             </div>

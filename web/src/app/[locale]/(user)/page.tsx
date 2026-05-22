@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 
 import { fetchPrompts, type Prompt } from "@/services/api/prompts";
 import { navigationTools } from "@/constant/navigation-tools";
+import { AppFooter } from "@/components/layout/app-footer";
 import { cn } from "@/lib/utils";
 
 function Highlighter({
@@ -122,6 +123,7 @@ export default function IndexPage() {
           {promptShowcase.map((item) => <Image key={item.id} src={item.coverUrl} alt={item.title} />)}
         </div>
       </Image.PreviewGroup>
+      <AppFooter />
     </main>
   );
 }

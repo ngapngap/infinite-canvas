@@ -54,7 +54,7 @@ export default function IndexPage() {
             {t("hero.title")}
           </h1>
           <p className="mt-8 max-w-3xl text-balance text-lg leading-8 text-stone-500 dark:text-stone-400">
-            {t("hero.description")}
+            {t("hero.description")} Được vận hành trên hạ tầng AI linh hoạt của <a href="https://ramclouds.me" target="_blank" rel="noreferrer" className="font-medium text-stone-700 underline underline-offset-4 transition hover:text-stone-950 dark:text-stone-300 dark:hover:text-stone-100">Ramclouds</a> và lớp định tuyến mô hình thông minh <a href="https://ramrouter.me" target="_blank" rel="noreferrer" className="font-medium text-stone-700 underline underline-offset-4 transition hover:text-stone-950 dark:text-stone-300 dark:hover:text-stone-100">RamRouter</a>, Ram Canvas giúp bạn khai thác đa mô hình trong một trải nghiệm liền mạch.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <Button type="primary" size="large" href={`/${primaryTool.slug}`} icon={<ArrowRight className="size-4" />} iconPlacement="end">

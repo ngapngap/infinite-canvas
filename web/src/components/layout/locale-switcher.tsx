@@ -8,7 +8,6 @@ import type { MenuProps } from "antd";
 
 const localeLabels: Record<string, string> = {
   vi: "Tiếng Việt",
-  "zh-CN": "中文",
   en: "English",
 };
 

@@ -1,7 +1,10 @@
 {
   "hero": {
     "title": "Ram Canvas",
-    "description": "Generate, connect, and recombine images, text, and graphics on an infinite canvas — turning one-off generation into continuous exploration.",
+    "description": "Ram Canvas is a limitless workspace to generate, connect, and recombine images, text, and graphics — turning one-off generation into continuous exploration.",
+    "ecosystemPrefix": "Powered by the flexible AI infrastructure of",
+    "ecosystemMiddle": "and the smart model routing layer",
+    "ecosystemSuffix": ", Ram Canvas lets you leverage multiple models in one seamless experience.",
     "startUsing": "Get Started",
     "openCanvas": "Open Canvas"
   },

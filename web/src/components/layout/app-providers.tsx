@@ -5,11 +5,20 @@ import { useEffect } from "react";
 import { ProConfigProvider } from "@ant-design/pro-components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { App, ConfigProvider } from "antd";
+import { useLocale } from "next-intl";
+import viVN from "antd/locale/vi_VN";
+import enUS from "antd/locale/en_US";
 import zhCN from "antd/locale/zh_CN";
 
 import { ClientRootInit } from "@/components/layout/client-root-init";
 import { getAntThemeConfig } from "@/lib/app-theme";
 import { useThemeStore } from "@/stores/use-theme-store";
+
+const antdLocaleMap: Record<string, typeof viVN> = {
+  vi: viVN,
+  en: enUS,
+  "zh-CN": zhCN,
+};
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +32,9 @@ const queryClient = new QueryClient({
 
 export function AppProviders({ children }: { children: ReactNode }) {
   const theme = useThemeStore((state) => state.theme);
+  const locale = useLocale();
   const dark = theme === "dark";
+  const antdLocale = antdLocaleMap[locale] || viVN;
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -31,7 +42,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
   }, [dark, theme]);
 
   return (
-    <ConfigProvider locale={zhCN} theme={getAntThemeConfig(dark)}>
+    <ConfigProvider locale={antdLocale} theme={getAntThemeConfig(dark)}>
       <ProConfigProvider dark={dark}>
         <App>
           <QueryClientProvider client={queryClient}>

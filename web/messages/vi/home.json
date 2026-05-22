@@ -2,6 +2,9 @@
   "hero": {
     "title": "Ram Canvas",
     "description": "Ram Canvas là không gian làm việc không giới hạn để tạo, kết nối và tái kết hợp hình ảnh, văn bản và đồ họa, biến từng lần tạo nội dung thành một hành trình khám phá liên tục.",
+    "ecosystemPrefix": "Được vận hành trên hạ tầng AI linh hoạt của",
+    "ecosystemMiddle": "và lớp định tuyến mô hình thông minh",
+    "ecosystemSuffix": ", Ram Canvas giúp bạn khai thác đa mô hình trong một trải nghiệm liền mạch.",
     "startUsing": "Bắt đầu",
     "openCanvas": "Mở Canvas"
   },

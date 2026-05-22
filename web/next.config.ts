@@ -16,7 +16,7 @@ const localChangelog = readFileSync(resolve(webDir, "../CHANGELOG.md"), "utf8");
 export default function nextConfig(phase: string): NextConfig {
   const isDev = phase === PHASE_DEVELOPMENT_SERVER;
   loadEnvConfig(resolve(webDir, ".."), isDev, undefined, true);
-  const apiBaseUrl = process.env.API_BASE_URL || "http://127.0.0.1:8080";
+  const apiBaseUrl = process.env.API_BASE_URL || "/api";
   const releases = parseChangelog(localChangelog);
 
   return withNextIntl({
@@ -28,8 +28,10 @@ export default function nextConfig(phase: string): NextConfig {
       NEXT_PUBLIC_APP_VERSION: localVersion,
       NEXT_PUBLIC_APP_RELEASES: JSON.stringify(releases),
     },
-    async rewrites() {
-      return [{ source: "/api/:path*", destination: `${apiBaseUrl}/api/:path*` }];
+    output: "export",
+    images: {
+      unoptimized: true,
     },
+    trailingSlash: true,
   });
-}
+};

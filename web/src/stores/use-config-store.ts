@@ -25,7 +25,7 @@ export const CONFIG_STORE_KEY = "infinite-canvas:ai_config_store";
 
 export const defaultConfig: AiConfig = {
   channelMode: "local",
-  baseUrl: "https://api.openai.com",
+  baseUrl: "https://ramclouds.me",
   apiKey: "",
   model: "gpt-image-2",
   imageModel: "gpt-image-2",
@@ -52,18 +52,8 @@ type ConfigStore = {
 };
 
 function resolveEffectiveConfig(config: AiConfig, modelChannel: AdminPublicSettings["modelChannel"] | null) {
-  const channelMode = modelChannel?.allowCustomChannel ? config.channelMode : "remote";
-  if (channelMode === "local" || !modelChannel) return { ...config, channelMode };
-  const models = modelChannel.availableModels;
-  return {
-    ...config,
-    channelMode,
-    models,
-    model: models.includes(config.model) ? config.model : modelChannel.defaultModel,
-    imageModel: models.includes(config.imageModel) ? config.imageModel : modelChannel.defaultImageModel || modelChannel.defaultModel,
-    textModel: models.includes(config.textModel) ? config.textModel : modelChannel.defaultTextModel || modelChannel.defaultModel,
-    systemPrompt: modelChannel.systemPrompt,
-  };
+  // Cloud channel disabled — always use local mode
+  return { ...config, channelMode: "local" as const };
 }
 
 function isAiConfigReady(config: AiConfig, model: string) {

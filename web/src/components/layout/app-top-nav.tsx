@@ -8,7 +8,6 @@ import { useTranslations } from "next-intl";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { navigationTools, type NavigationToolSlug } from "@/constant/navigation-tools";
 import { AppConfigModal } from "@/components/layout/app-config-modal";
-import { GitHubLink } from "@/components/layout/github-link";
 import { LocaleSwitcher } from "@/components/layout/locale-switcher";
 import { MobileNavDrawer } from "@/components/layout/mobile-nav-drawer";
 import { UserStatusActions } from "@/components/layout/user-status-actions";
@@ -108,7 +107,6 @@ export function AppTopNav() {
                     title={theme === "dark" ? t("switchToLight") : t("switchToDark")}
                   />
                   <VersionReleaseModal />
-                  <GitHubLink />
                   <Link href="/login" className="text-sm font-medium text-stone-600 underline-offset-4 transition hover:text-stone-950 hover:underline dark:text-stone-300 dark:hover:text-stone-100">
                     {t("login")}
                   </Link>

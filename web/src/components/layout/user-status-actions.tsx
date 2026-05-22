@@ -7,7 +7,6 @@ import type { ItemType } from "antd/es/menu/interface";
 import Link from "next/link";
 
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import { GitHubLink } from "@/components/layout/github-link";
 import { VersionReleaseModal } from "@/components/layout/version-release-modal";
 import { cn } from "@/lib/utils";
 import { canvasThemes } from "@/lib/canvas-theme";
@@ -40,20 +39,18 @@ export function UserStatusActions({
   const logout = useUserStore((state) => state.clearSession);
   const openConfigDialog = useConfigStore((state) => state.openConfigDialog);
   const canvasTheme = canvasThemes[theme];
-  const userName = user?.username || "用户";
+  const userName = user?.username || "Người dùng";
   const avatarText = (userName.trim()[0] || "U").toUpperCase();
   const naturalIconClass = "inline-flex size-8 shrink-0 items-center justify-center text-stone-600 transition hover:text-stone-950 dark:text-stone-300 dark:hover:text-white [&_svg]:size-4";
   const iconStyle: CSSProperties | undefined = variant === "canvas" ? { color: canvasTheme.node.text } : undefined;
   const versionStyle = iconStyle;
-  const gitHubClassName = variant === "canvas" ? "size-11 text-base" : undefined;
-  const gitHubStyle = iconStyle;
   const avatarStyle: CSSProperties | undefined = variant === "canvas" ? { borderColor: canvasTheme.toolbar.border, color: canvasTheme.node.text } : undefined;
   const menuItems: ItemType[] = [
     { key: "user", disabled: true, label: <span className="font-medium text-current">{userName}</span> },
-    ...(user?.role === "admin" ? [{ key: "admin", icon: <Shield className="size-4" />, label: <Link href="/admin">管理后台</Link> }] : []),
-    ...(onOpenShortcuts ? [{ key: "shortcuts", icon: <Keyboard className="size-4" />, label: "快捷键", onClick: onOpenShortcuts }] : []),
+    ...(user?.role === "admin" ? [{ key: "admin", icon: <Shield className="size-4" />, label: <Link href="/admin">Quản trị</Link> }] : []),
+    ...(onOpenShortcuts ? [{ key: "shortcuts", icon: <Keyboard className="size-4" />, label: "Phím tắt", onClick: onOpenShortcuts }] : []),
     { type: "divider" },
-    { key: "logout", icon: <LogOut className="size-4" />, label: "退出登录", onClick: logout },
+    { key: "logout", icon: <LogOut className="size-4" />, label: "Đăng xuất", onClick: logout },
   ];
 
   return (
@@ -64,8 +61,8 @@ export function UserStatusActions({
           className={naturalIconClass}
           style={iconStyle}
           onClick={() => openConfigDialog(false)}
-          aria-label="配置"
-          title="配置"
+          aria-label="Cấu hình"
+          title="Cấu hình"
         >
           <Settings2 className="size-4" />
         </button>
@@ -75,11 +72,10 @@ export function UserStatusActions({
         onThemeChange={setTheme}
         className={naturalIconClass}
         style={iconStyle}
-        aria-label={theme === "dark" ? "切换到浅色主题" : "切换到深色主题"}
-        title={theme === "dark" ? "切换到浅色主题" : "切换到深色主题"}
+        aria-label={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
+        title={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
       />
       <VersionReleaseModal style={versionStyle} />
-      <GitHubLink className={cn("bg-transparent hover:bg-transparent dark:hover:bg-transparent", gitHubClassName)} style={gitHubStyle} />
       <div ref={accountRef}>
         <Dropdown
           open={accountOpen}
@@ -94,7 +90,7 @@ export function UserStatusActions({
             type="button"
             className="inline-flex size-7 shrink-0 items-center justify-center rounded-full border border-stone-300 bg-transparent p-0 text-xs font-semibold leading-none text-stone-800 transition hover:border-stone-500 hover:text-stone-950 dark:border-stone-700 dark:text-stone-100 dark:hover:border-stone-400 dark:hover:text-white"
             style={avatarStyle}
-            aria-label="账户菜单"
+            aria-label="Menu tài khoản"
           >
             <span className="leading-none">{avatarText}</span>
           </button>

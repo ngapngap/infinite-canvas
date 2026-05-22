@@ -2,6 +2,7 @@
 
 import { Drawer } from "antd";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 import { navigationTools, type NavigationToolSlug } from "@/constant/navigation-tools";
 import { cn } from "@/lib/utils";
@@ -13,8 +14,10 @@ type MobileNavDrawerProps = {
 };
 
 export function MobileNavDrawer({ open, activeToolSlug, onClose }: MobileNavDrawerProps) {
+  const t = useTranslations("nav");
+
   return (
-    <Drawer title="导航" placement="left" size={280} open={open} onClose={onClose} className="md:hidden">
+    <Drawer title="Điều hướng" placement="left" size={280} open={open} onClose={onClose} className="md:hidden">
       <div className="space-y-1">
         {navigationTools.map((tool) => {
           const Icon = tool.icon;
@@ -32,7 +35,7 @@ export function MobileNavDrawer({ open, activeToolSlug, onClose }: MobileNavDraw
               )}
             >
               <Icon className="size-5" />
-              <span>{tool.label}</span>
+              <span>{t(tool.labelKey)}</span>
             </Link>
           );
         })}

@@ -55,17 +55,17 @@ export function useVersionCheck() {
         fetch(latestVersionUrl),
         fetch(latestChangelogUrl),
       ]);
-      if (!versionResponse.ok) throw new Error("版本读取失败");
-      if (!changelogResponse.ok) throw new Error("更新日志读取失败");
+      if (!versionResponse.ok) throw new Error("Không thể đọc phiên bản");
+      if (!changelogResponse.ok) throw new Error("Không thể đọc nhật ký cập nhật");
       const [version, changelog] = await Promise.all([versionResponse.text(), changelogResponse.text()]);
       setLatestVersion(version.trim() || currentVersion);
       if (changelog.trim()) setReleases(parseChangelog(changelog));
-      if (showMessage) message.success("已获取最新版本信息");
+      if (showMessage) message.success("Đã lấy thông tin phiên bản mới nhất");
       return true;
     } catch {
       setLatestVersion(currentVersion);
       setReleases(localReleases);
-      if (showMessage) message.error("获取最新版本信息失败");
+      if (showMessage) message.error("Không thể lấy thông tin phiên bản mới nhất");
       return false;
     } finally {
       setChecking(false);

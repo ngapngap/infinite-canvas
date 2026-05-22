@@ -263,7 +263,7 @@ export const AnimatedThemeToggler = ({
       {...props}
     >
       {children ?? (isDark ? <Sun /> : <Moon />)}
-      <span className="sr-only">{props["aria-label"] || "切换主题"}</span>
+      <span className="sr-only">{props["aria-label"] || "Chuyển đổi giao diện"}</span>
     </button>
   )
 }

@@ -1,6 +1,6 @@
 {
   "libraryLabel": "Thư viện canvas",
-  "title": "Infinite Canvas",
+  "title": "Ram Canvas",
   "newCanvas": "Tạo canvas mới",
   "deleteSelected": "Xóa mục đã chọn",
   "deleteAll": "Xóa tất cả",
@@ -10,5 +10,5 @@
   "loading": "Đang tải canvas...",
   "emptyTitle": "Chưa có canvas nào",
   "emptyDescription": "Tạo canvas mới để lưu trữ các nút, kết nối và giao diện riêng biệt.",
-  "defaultName": "Infinite Canvas {index}"
+  "defaultName": "Ram Canvas {index}"
 }

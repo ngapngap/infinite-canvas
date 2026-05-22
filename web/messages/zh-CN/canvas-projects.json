@@ -1,6 +1,6 @@
 {
   "libraryLabel": "画布库",
-  "title": "无限画布",
+  "title": "Ram Canvas",
   "newCanvas": "新建画布",
   "deleteSelected": "删除选中",
   "deleteAll": "删除全部",
@@ -10,5 +10,5 @@
   "loading": "正在加载画布...",
   "emptyTitle": "还没有画布",
   "emptyDescription": "新建一个画布后，就可以独立保存节点、连线和画布外观。",
-  "defaultName": "无限画布 {index}"
+  "defaultName": "Ram Canvas {index}"
 }

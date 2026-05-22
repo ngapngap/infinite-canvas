@@ -14,7 +14,7 @@ type ModelPickerProps = {
   onMissingConfig?: () => void;
 };
 
-export function ModelPicker({ config, value, onChange, className, fullWidth = false, placeholder = "选择模型", onMissingConfig }: ModelPickerProps) {
+export function ModelPicker({ config, value, onChange, className, fullWidth = false, placeholder = "Chọn mô hình", onMissingConfig }: ModelPickerProps) {
   const options = Array.from(new Set([value, ...config.models].filter(Boolean))).map((model) => ({ value: model, label: model }));
   const width = fullWidth ? "100%" : `min(${Math.max(156, (value || placeholder).length * 8 + 64)}px, 100%)`;
 
@@ -28,7 +28,7 @@ export function ModelPicker({ config, value, onChange, className, fullWidth = fa
       value={value || undefined}
       placeholder={placeholder}
       options={options}
-      notFoundContent="请先到配置里拉取模型列表"
+      notFoundContent="Vui lòng tải danh sách mô hình trong phần cấu hình"
       onChange={onChange}
       onMouseDown={(event) => event.stopPropagation()}
       onPointerDown={(event) => event.stopPropagation()}

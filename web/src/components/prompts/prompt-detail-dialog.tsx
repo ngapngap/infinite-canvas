@@ -19,10 +19,10 @@ export function PromptDetailDialog({ prompt, onClose, onCopy, onSaveAsset }: { p
                 <div className="min-w-0">
                   <div className="flex flex-wrap gap-1.5">{prompt.tags.map((tag) => <Tag key={tag} className="m-0">{tag}</Tag>)}</div>
                   <p className="mt-4 whitespace-pre-wrap text-sm leading-7 text-stone-800 dark:text-stone-300">{prompt.prompt}</p>
-                  <div className="mt-4 text-xs text-stone-500 dark:text-stone-400">创建：{formatPromptDate(prompt.createdAt)} · 更新：{formatPromptDate(prompt.updatedAt)}</div>
+                  <div className="mt-4 text-xs text-stone-500 dark:text-stone-400">Tạo: {formatPromptDate(prompt.createdAt)} · Cập nhật: {formatPromptDate(prompt.updatedAt)}</div>
                   <Space wrap className="mt-5">
-                    <Button type="primary" icon={<Copy className="size-4" />} onClick={() => onCopy(prompt.prompt)}>复制提示词</Button>
-                    {onSaveAsset ? <Button icon={<FolderPlus className="size-4" />} onClick={() => onSaveAsset(prompt)}>加入我的素材</Button> : null}
+                    <Button type="primary" icon={<Copy className="size-4" />} onClick={() => onCopy(prompt.prompt)}>Sao chép prompt</Button>
+                    {onSaveAsset ? <Button icon={<FolderPlus className="size-4" />} onClick={() => onSaveAsset(prompt)}>Thêm vào tài nguyên</Button> : null}
                   </Space>
                 </div>
               </div>

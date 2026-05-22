@@ -6,7 +6,7 @@ import { Button, Card, Tag } from "antd";
 
 import { formatPromptDate, type Prompt } from "@/services/api/prompts";
 
-export function PromptCard({ item, onOpen, onCopy, actionLabel = "复制", actionIcon = <Copy className="size-3.5" />, actionType = "text", extraAction }: { item: Prompt; onOpen: () => void; onCopy: () => void; actionLabel?: string; actionIcon?: ReactNode; actionType?: "text" | "primary"; extraAction?: ReactNode }) {
+export function PromptCard({ item, onOpen, onCopy, actionLabel = "Sao chép", actionIcon = <Copy className="size-3.5" />, actionType = "text", extraAction }: { item: Prompt; onOpen: () => void; onCopy: () => void; actionLabel?: string; actionIcon?: ReactNode; actionType?: "text" | "primary"; extraAction?: ReactNode }) {
   return (
     <Card
       hoverable

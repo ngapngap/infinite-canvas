@@ -6,8 +6,8 @@
     "openCanvas": "Mở Canvas"
   },
   "showcase": {
-    "title": "Lưu giữ mọi kết quả tốt",
-    "description": "Lưu lại prompt, phong cách tham chiếu và ảnh đầu ra hiệu quả, để lần sáng tạo tiếp theo bắt đầu từ kinh nghiệm đã có.",
+    "title": "Giữ lại mọi kết quả ưng ý",
+    "description": "Lưu prompt, style và hình ảnh trực tiếp trên canvas, để những lần khám phá sau có thể tiếp tục ngay từ những phiên bản tốt nhất trước đó.",
     "viewLibrary": "Xem thư viện Prompt",
     "fetchError": "Không thể tải prompt"
   },

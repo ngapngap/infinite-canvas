@@ -1,0 +1,76 @@
+{
+  "toolbar": {
+    "moveSelect": "Move/Select",
+    "undo": "Undo",
+    "redo": "Redo",
+    "text": "Text",
+    "image": "Image",
+    "generationConfig": "Generation Config",
+    "uploadImage": "Upload Image",
+    "assetLibrary": "Asset Library",
+    "myAssets": "My Assets",
+    "canvasAppearance": "Canvas Appearance",
+    "deleteSelected": "Delete Selected",
+    "clearCanvas": "Clear Canvas"
+  },
+  "appearance": {
+    "title": "Canvas Appearance",
+    "themeMode": "Theme Mode",
+    "light": "Light",
+    "dark": "Dark",
+    "gridStyle": "Grid Style",
+    "dots": "Dots",
+    "lines": "Lines",
+    "blank": "Blank",
+    "switchToLight": "Switch to light theme",
+    "switchToDark": "Switch to dark theme"
+  },
+  "contextMenu": {
+    "duplicate": "Duplicate",
+    "delete": "Delete"
+  },
+  "assistant": {
+    "title": "Canvas Assistant (WIP)",
+    "history": "History",
+    "newChat": "New Chat",
+    "config": "Settings",
+    "collapsePanel": "Collapse",
+    "deleteSelected": "Delete Selected",
+    "deleteAll": "Delete All",
+    "backToChat": "Back to Chat",
+    "generatingImage": "Generating image",
+    "answering": "Answering",
+    "generatedImages": "Generated {count} images",
+    "operationFailed": "Operation failed",
+    "sendLabel": "Send",
+    "imagePlaceholder": "Describe the image you want to generate or edit",
+    "askPlaceholder": "Enter your question",
+    "retry": "Retry",
+    "insertToCanvas": "Insert to Canvas",
+    "answer": "Answer",
+    "removeReference": "Remove reference",
+    "textMode": "Text",
+    "imageMode": "Image",
+    "resizePanel": "Resize panel",
+    "messagesCount": "{count} messages"
+  },
+  "assistantDeleteDialog": {
+    "title": "Delete chat history?",
+    "description": "This will delete {count} conversations. This action cannot be undone.",
+    "cancel": "Cancel",
+    "confirm": "Delete"
+  },
+  "imageSettings": {
+    "title": "Image Settings",
+    "model": "Model",
+    "quality": "Quality",
+    "qualityAuto": "Auto",
+    "qualityHigh": "High",
+    "qualityMedium": "Medium",
+    "qualityLow": "Low",
+    "aspectRatio": "Aspect Ratio",
+    "customRatio": "Custom ratio",
+    "count": "Count",
+    "countUnit": "{count}"
+  }
+}

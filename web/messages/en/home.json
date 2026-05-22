@@ -1,0 +1,15 @@
+{
+  "hero": {
+    "title": "Infinite Canvas",
+    "description": "Generate, connect, and recombine images, text, and graphics on an infinite canvas — turning one-off generation into continuous exploration.",
+    "startUsing": "Get Started",
+    "openCanvas": "Open Canvas"
+  },
+  "showcase": {
+    "title": "Preserve every great result",
+    "description": "Save prompts, reference styles, and output images that work well, so your next creation starts from proven experience.",
+    "viewLibrary": "View Prompt Library",
+    "fetchError": "Failed to fetch prompts"
+  },
+  "slogan": "One canvas, infinite ideas"
+}

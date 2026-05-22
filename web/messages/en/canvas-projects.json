@@ -1,0 +1,14 @@
+{
+  "libraryLabel": "Canvas Library",
+  "title": "Infinite Canvas",
+  "newCanvas": "New Canvas",
+  "deleteSelected": "Delete Selected",
+  "deleteAll": "Delete All",
+  "importCanvas": "Import Canvas",
+  "importSuccess": "Canvas imported",
+  "importError": "Import failed. Please select a valid JSON file.",
+  "loading": "Loading canvases...",
+  "emptyTitle": "No canvases yet",
+  "emptyDescription": "Create a new canvas to save nodes, connections, and appearance independently.",
+  "defaultName": "Infinite Canvas {index}"
+}

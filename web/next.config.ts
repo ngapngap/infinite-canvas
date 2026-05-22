@@ -5,6 +5,9 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { parseChangelog } from "@/lib/release";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const webDir = dirname(fileURLToPath(import.meta.url));
 const localVersion = readFileSync(resolve(webDir, "../VERSION"), "utf8").trim() || "dev";
@@ -16,7 +19,7 @@ export default function nextConfig(phase: string): NextConfig {
   const apiBaseUrl = process.env.API_BASE_URL || "http://127.0.0.1:8080";
   const releases = parseChangelog(localChangelog);
 
-  return {
+  return withNextIntl({
     allowedDevOrigins: isDev ? ["*.*.*.*"] : [],
     typescript: {
       ignoreBuildErrors: true,
@@ -28,5 +31,5 @@ export default function nextConfig(phase: string): NextConfig {
     async rewrites() {
       return [{ source: "/api/:path*", destination: `${apiBaseUrl}/api/:path*` }];
     },
-  };
+  });
 }

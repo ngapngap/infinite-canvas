@@ -3,22 +3,22 @@ import { FileText, ImagePlus, Images, Maximize2 } from "lucide-react";
 export const navigationTools = [
   {
     slug: "canvas",
-    label: "我的画布",
+    labelKey: "myCanvas",
     icon: Maximize2,
   },
   {
     slug: "image",
-    label: "生图工作台",
+    labelKey: "imageWorkbench",
     icon: ImagePlus,
   },
   {
     slug: "prompts",
-    label: "提示词库",
+    labelKey: "promptLibrary",
     icon: FileText,
   },
   {
     slug: "assets",
-    label: "我的素材",
+    labelKey: "myAssets",
     icon: Images,
   },
 ] as const;

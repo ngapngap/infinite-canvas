@@ -4,6 +4,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { App, Button, Form, Input } from "antd";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { useTranslations } from "next-intl";
 
 import { useUserStore } from "@/stores/use-user-store";
 
@@ -25,6 +26,7 @@ function LoginContent() {
   const { message } = App.useApp();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations("auth");
   const login = useUserStore((state) => state.login);
   const isLoading = useUserStore((state) => state.isLoading);
   const redirect = searchParams.get("redirect") || "/";
@@ -32,12 +34,12 @@ function LoginContent() {
   const submit = async (values: LoginFormValues) => {
     try {
       const user = await login({ username: values.username, password: values.password });
-      message.success("登录成功");
+      message.success(t("loginSuccess"));
       router.replace(redirect.startsWith("/") ? redirect : "/");
       router.refresh();
       if (user.role !== "admin") router.replace("/");
     } catch (error) {
-      message.error(error instanceof Error ? error.message : "登录失败");
+      message.error(error instanceof Error ? error.message : t("loginFailed"));
     }
   };
 
@@ -51,21 +53,21 @@ function LoginContent() {
               mask: "url(/logo.svg) center / contain no-repeat",
               WebkitMask: "url(/logo.svg) center / contain no-repeat",
             }}
-            aria-label="无限画布"
+            aria-label={t("loginTitle")}
           />
-          <h1 className="text-3xl font-semibold tracking-normal text-stone-950 dark:text-stone-100">管理员登录</h1>
-          <p className="mt-3 text-base leading-7 text-stone-500 dark:text-stone-400">当前暂时关闭注册，仅允许管理员账号登录。</p>
+          <h1 className="text-3xl font-semibold tracking-normal text-stone-950 dark:text-stone-100">{t("loginTitle")}</h1>
+          <p className="mt-3 text-base leading-7 text-stone-500 dark:text-stone-400">{t("loginDescription")}</p>
         </div>
 
         <Form<LoginFormValues> layout="vertical" size="large" requiredMark={false} onFinish={submit}>
-          <Form.Item name="username" label={<span className="font-medium text-stone-800 dark:text-stone-200">用户名</span>} rules={[{ required: true, message: "请输入用户名" }]}>
+          <Form.Item name="username" label={<span className="font-medium text-stone-800 dark:text-stone-200">{t("usernameLabel")}</span>} rules={[{ required: true, message: t("usernameRequired") }]}>
             <Input prefix={<UserOutlined />} autoComplete="username" />
           </Form.Item>
-          <Form.Item name="password" label={<span className="font-medium text-stone-800 dark:text-stone-200">密码</span>} rules={[{ required: true, message: "请输入密码" }]}>
+          <Form.Item name="password" label={<span className="font-medium text-stone-800 dark:text-stone-200">{t("passwordLabel")}</span>} rules={[{ required: true, message: t("passwordRequired") }]}>
             <Input.Password prefix={<LockOutlined />} autoComplete="current-password" />
           </Form.Item>
           <Button block type="primary" htmlType="submit" loading={isLoading}>
-            登录
+            {t("loginButton")}
           </Button>
         </Form>
       </section>

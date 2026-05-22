@@ -1,0 +1,13 @@
+{
+  "brand": "Infinite Canvas",
+  "myCanvas": "My Canvas",
+  "imageWorkbench": "Image Studio",
+  "promptLibrary": "Prompt Library",
+  "myAssets": "My Assets",
+  "config": "Settings",
+  "login": "Login",
+  "openNavMenu": "Open navigation menu",
+  "navMenu": "Navigation menu",
+  "switchToLight": "Switch to light theme",
+  "switchToDark": "Switch to dark theme"
+}

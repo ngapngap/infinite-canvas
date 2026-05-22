@@ -1,0 +1,76 @@
+{
+  "toolbar": {
+    "moveSelect": "Di chuyển/Chọn",
+    "undo": "Hoàn tác",
+    "redo": "Làm lại",
+    "text": "Văn bản",
+    "image": "Hình ảnh",
+    "generationConfig": "Cấu hình tạo ảnh",
+    "uploadImage": "Tải ảnh lên",
+    "assetLibrary": "Thư viện tài nguyên",
+    "myAssets": "Tài nguyên của tôi",
+    "canvasAppearance": "Giao diện canvas",
+    "deleteSelected": "Xóa mục đã chọn",
+    "clearCanvas": "Xóa toàn bộ canvas"
+  },
+  "appearance": {
+    "title": "Giao diện canvas",
+    "themeMode": "Chế độ giao diện",
+    "light": "Sáng",
+    "dark": "Tối",
+    "gridStyle": "Kiểu lưới",
+    "dots": "Chấm",
+    "lines": "Đường",
+    "blank": "Trống",
+    "switchToLight": "Chuyển sang giao diện sáng",
+    "switchToDark": "Chuyển sang giao diện tối"
+  },
+  "contextMenu": {
+    "duplicate": "Nhân bản",
+    "delete": "Xóa"
+  },
+  "assistant": {
+    "title": "Trợ lý canvas (chưa phát triển)",
+    "history": "Lịch sử",
+    "newChat": "Cuộc trò chuyện mới",
+    "config": "Cấu hình",
+    "collapsePanel": "Thu gọn",
+    "deleteSelected": "Xóa mục đã chọn",
+    "deleteAll": "Xóa tất cả",
+    "backToChat": "Quay lại trò chuyện",
+    "generatingImage": "Đang tạo hình ảnh",
+    "answering": "Đang trả lời",
+    "generatedImages": "Đã tạo {count} hình ảnh",
+    "operationFailed": "Thao tác thất bại",
+    "sendLabel": "Gửi",
+    "imagePlaceholder": "Mô tả hình ảnh bạn muốn tạo hoặc chỉnh sửa",
+    "askPlaceholder": "Nhập câu hỏi của bạn",
+    "retry": "Thử lại",
+    "insertToCanvas": "Chèn vào canvas",
+    "answer": "Trả lời",
+    "removeReference": "Xóa tham chiếu",
+    "textMode": "Văn bản",
+    "imageMode": "Tạo ảnh",
+    "resizePanel": "Thay đổi kích thước bảng",
+    "messagesCount": "{count} tin nhắn"
+  },
+  "assistantDeleteDialog": {
+    "title": "Xóa lịch sử trò chuyện?",
+    "description": "Sẽ xóa {count} cuộc trò chuyện. Thao tác này không thể hoàn tác.",
+    "cancel": "Hủy",
+    "confirm": "Xóa"
+  },
+  "imageSettings": {
+    "title": "Cài đặt hình ảnh",
+    "model": "Mô hình",
+    "quality": "Chất lượng",
+    "qualityAuto": "Tự động",
+    "qualityHigh": "Cao",
+    "qualityMedium": "Trung bình",
+    "qualityLow": "Thấp",
+    "aspectRatio": "Tỷ lệ khung hình",
+    "customRatio": "Tỷ lệ tùy chỉnh",
+    "count": "Số lượng",
+    "countUnit": "{count} ảnh"
+  }
+}

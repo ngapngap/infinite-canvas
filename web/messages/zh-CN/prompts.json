@@ -1,0 +1,16 @@
+{
+  "title": "提示词中心",
+  "totalCount": "共 {count} 条提示词，按标题、标签与分类快速查找灵感。",
+  "searchPlaceholder": "按标题查询",
+  "categoryLabel": "分类",
+  "tagLabel": "标签",
+  "addToAssets": "加入我的素材",
+  "addedToAssets": "已加入我的素材",
+  "copied": "提示词已复制",
+  "fetchError": "获取提示词失败",
+  "empty": "没有找到匹配的提示词",
+  "loadingMore": "加载中...",
+  "scrollForMore": "继续向下滚动加载更多",
+  "reachedEnd": "已经到底了",
+  "viewLibrary": "查看提示词库"
+}

@@ -1,0 +1,39 @@
+{
+  "actions": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "save": "Save",
+    "edit": "Edit",
+    "copy": "Copy",
+    "close": "Close",
+    "refresh": "Refresh",
+    "retry": "Retry",
+    "submit": "Submit",
+    "search": "Search",
+    "upload": "Upload",
+    "download": "Download",
+    "back": "Back",
+    "next": "Next",
+    "add": "Add",
+    "remove": "Remove",
+    "create": "Create",
+    "open": "Open",
+    "send": "Send"
+  },
+  "status": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "success": "Success",
+    "failed": "Operation failed",
+    "noData": "No data",
+    "loadMore": "Load more",
+    "noMore": "No more items",
+    "loadingMore": "Loading..."
+  },
+  "units": {
+    "count": "{count}",
+    "items": "{count} items",
+    "images": "{count} images"
+  }
+}

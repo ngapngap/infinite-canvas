@@ -1,0 +1,17 @@
+{
+  "notFound": {
+    "title": "Không tìm thấy trang",
+    "description": "Trang này không tồn tại. Có thể đã được di chuyển hoặc gộp vào mục khác.",
+    "backHome": "Về trang chủ",
+    "goLogin": "Đăng nhập"
+  },
+  "validation": {
+    "required": "Trường này là bắt buộc",
+    "invalidFormat": "Định dạng không hợp lệ"
+  },
+  "network": {
+    "requestFailed": "Yêu cầu thất bại",
+    "timeout": "Yêu cầu hết thời gian",
+    "serverError": "Lỗi máy chủ"
+  }
+}

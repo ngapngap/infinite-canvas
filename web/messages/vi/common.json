@@ -1,0 +1,39 @@
+{
+  "actions": {
+    "confirm": "Xác nhận",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "save": "Lưu",
+    "edit": "Sửa",
+    "copy": "Sao chép",
+    "close": "Đóng",
+    "refresh": "Làm mới",
+    "retry": "Thử lại",
+    "submit": "Gửi",
+    "search": "Tìm kiếm",
+    "upload": "Tải lên",
+    "download": "Tải xuống",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "add": "Thêm",
+    "remove": "Xóa",
+    "create": "Tạo mới",
+    "open": "Mở",
+    "send": "Gửi"
+  },
+  "status": {
+    "loading": "Đang tải...",
+    "saving": "Đang lưu...",
+    "success": "Thành công",
+    "failed": "Thao tác thất bại",
+    "noData": "Không có dữ liệu",
+    "loadMore": "Tải thêm",
+    "noMore": "Đã hết",
+    "loadingMore": "Đang tải..."
+  },
+  "units": {
+    "count": "{count}",
+    "items": "{count} mục",
+    "images": "{count} ảnh"
+  }
+}

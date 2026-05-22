@@ -1,0 +1,14 @@
+{
+  "libraryLabel": "Thư viện canvas",
+  "title": "Infinite Canvas",
+  "newCanvas": "Tạo canvas mới",
+  "deleteSelected": "Xóa mục đã chọn",
+  "deleteAll": "Xóa tất cả",
+  "importCanvas": "Nhập canvas",
+  "importSuccess": "Đã nhập canvas",
+  "importError": "Nhập thất bại. Vui lòng chọn file JSON hợp lệ.",
+  "loading": "Đang tải canvas...",
+  "emptyTitle": "Chưa có canvas nào",
+  "emptyDescription": "Tạo canvas mới để lưu trữ các nút, kết nối và giao diện riêng biệt.",
+  "defaultName": "Infinite Canvas {index}"
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Prompt Center",
+  "totalCount": "{count} prompts available. Search by title, tags, and categories.",
+  "searchPlaceholder": "Search by title",
+  "categoryLabel": "Category",
+  "tagLabel": "Tags",
+  "addToAssets": "Add to My Assets",
+  "addedToAssets": "Added to My Assets",
+  "copied": "Prompt copied",
+  "fetchError": "Failed to fetch prompts",
+  "empty": "No matching prompts found",
+  "loadingMore": "Loading...",
+  "scrollForMore": "Scroll down to load more",
+  "reachedEnd": "No more items",
+  "viewLibrary": "View Prompt Library"
+}

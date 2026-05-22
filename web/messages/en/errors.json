@@ -1,0 +1,17 @@
+{
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "This page doesn't exist. It may have been moved or merged into another section.",
+    "backHome": "Back to Home",
+    "goLogin": "Go to Login"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidFormat": "Invalid format"
+  },
+  "network": {
+    "requestFailed": "Request failed",
+    "timeout": "Request timed out",
+    "serverError": "Server error"
+  }
+}

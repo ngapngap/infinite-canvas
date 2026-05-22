@@ -1,0 +1,15 @@
+{
+  "hero": {
+    "title": "无限画布",
+    "description": "在无限画布中生成、连接和重组图片、文字与图形，让创作从单次生成变成连续推演。",
+    "startUsing": "开始使用",
+    "openCanvas": "打开画布"
+  },
+  "showcase": {
+    "title": "沉淀每一次好结果",
+    "description": "收藏稳定出图的提示词、参考风格和结果图片，让下一次创作从已有经验开始。",
+    "viewLibrary": "查看提示词库",
+    "fetchError": "获取提示词失败"
+  },
+  "slogan": "One canvas, infinite ideas"
+}

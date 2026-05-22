@@ -1,0 +1,16 @@
+{
+  "title": "Trung tâm Prompt",
+  "totalCount": "{count} prompt có sẵn. Tìm kiếm theo tiêu đề, thẻ và danh mục.",
+  "searchPlaceholder": "Tìm theo tiêu đề",
+  "categoryLabel": "Danh mục",
+  "tagLabel": "Thẻ",
+  "addToAssets": "Thêm vào tài nguyên",
+  "addedToAssets": "Đã thêm vào tài nguyên",
+  "copied": "Đã sao chép prompt",
+  "fetchError": "Không thể tải prompt",
+  "empty": "Không tìm thấy prompt phù hợp",
+  "loadingMore": "Đang tải...",
+  "scrollForMore": "Cuộn xuống để tải thêm",
+  "reachedEnd": "Đã hết",
+  "viewLibrary": "Xem thư viện Prompt"
+}

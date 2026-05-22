@@ -1,0 +1,15 @@
+{
+  "hero": {
+    "title": "Infinite Canvas",
+    "description": "Tạo, kết nối và tái tổ hợp hình ảnh, văn bản và đồ họa trên canvas vô hạn — biến việc tạo ảnh đơn lẻ thành quá trình khám phá liên tục.",
+    "startUsing": "Bắt đầu",
+    "openCanvas": "Mở Canvas"
+  },
+  "showcase": {
+    "title": "Lưu giữ mọi kết quả tốt",
+    "description": "Lưu lại prompt, phong cách tham chiếu và ảnh đầu ra hiệu quả, để lần sáng tạo tiếp theo bắt đầu từ kinh nghiệm đã có.",
+    "viewLibrary": "Xem thư viện Prompt",
+    "fetchError": "Không thể tải prompt"
+  },
+  "slogan": "One canvas, infinite ideas"
+}

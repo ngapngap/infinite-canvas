@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { ArrowUp, History, ImageIcon, LoaderCircle, MessageSquare, PanelRightClose, Plus, RotateCcw, Settings2, Sparkles, Trash2, X } from "lucide-react";
 import { Button, ConfigProvider, Input, InputNumber, Modal, Popover, Segmented, Tooltip } from "antd";
 import { motion } from "motion/react";
+import { useTranslations } from "next-intl";
 
 import { ImageGenerationPending } from "@/components/image-generation-pending";
 import { ModelPicker } from "@/components/model-picker";
@@ -40,6 +41,8 @@ type CanvasAssistantPanelProps = {
 
 export function CanvasAssistantPanel({ nodes, selectedNodeIds, sessions, activeSessionId, onSelectNodeIds, onSessionsChange, onInsertImage, onInsertText, onPasteImage, onCollapseStart, onCollapse }: CanvasAssistantPanelProps) {
   const theme = canvasThemes[useThemeStore((state) => state.theme)];
+  const t = useTranslations("canvas.assistant");
+  const tDelete = useTranslations("canvas.assistantDeleteDialog");
   const config = useConfigStore((state) => state.config);
   const effectiveConfig = useEffectiveConfig();
   const cleanupImages = useAssetStore((state) => state.cleanupImages);
@@ -90,7 +93,7 @@ export function CanvasAssistantPanel({ nodes, selectedNodeIds, sessions, activeS
   const appendMessage = (sessionId: string, message: CanvasAssistantMessage) => {
     updateSession(sessionId, (session) => ({
       ...session,
-      title: session.messages.length ? session.title : message.text.slice(0, 18) || "新对话",
+      title: session.messages.length ? session.title : message.text.slice(0, 18) || t("newChat"),
       messages: [...session.messages, message],
       updatedAt: new Date().toISOString(),
     }));
@@ -153,7 +156,7 @@ export function CanvasAssistantPanel({ nodes, selectedNodeIds, sessions, activeS
     const userMessage: CanvasAssistantMessage = { id: nanoid(), role: "user", mode: nextMode, text, references: refs };
     const assistantId = nanoid();
     appendMessage(session.id, userMessage);
-    appendMessage(session.id, { id: assistantId, role: "assistant", mode: nextMode, text: nextMode === "image" ? "正在生成图片" : "正在回答", isLoading: true });
+    appendMessage(session.id, { id: assistantId, role: "assistant", mode: nextMode, text: nextMode === "image" ? t("generatingImage") : t("answering"), isLoading: true });
     setPrompt("");
     setIsRunning(true);
 
@@ -163,7 +166,7 @@ export function CanvasAssistantPanel({ nodes, selectedNodeIds, sessions, activeS
         const images = referenceImages.length ? await requestEdit(requestConfig, text, referenceImages) : await requestGeneration(requestConfig, text);
         const storedImages = await Promise.all(images.map((image) => uploadImage(image.dataUrl)));
         updateMessage(session.id, assistantId, {
-          text: `生成了 ${storedImages.length} 张图片`,
+          text: t("generatedImages", { count: storedImages.length }),
           images: storedImages.map((image, index) => ({ id: images[index].id, dataUrl: image.url, storageKey: image.storageKey, prompt: text })),
           isLoading: false,
         });
@@ -175,7 +178,7 @@ export function CanvasAssistantPanel({ nodes, selectedNodeIds, sessions, activeS
       });
       updateMessage(session.id, assistantId, { text: answer, isLoading: false });
     } catch (error) {
-      updateMessage(session.id, assistantId, { text: error instanceof Error ? error.message : "操作失败", isLoading: false });
+      updateMessage(session.id, assistantId, { text: error instanceof Error ? error.message : t("operationFailed"), isLoading: false });
     } finally {
       setIsRunning(false);
     }
@@ -225,30 +228,30 @@ export function CanvasAssistantPanel({ nodes, selectedNodeIds, sessions, activeS
       style={{ overflow: "clip", pointerEvents: closing ? "none" : undefined }}
     >
       <motion.aside className="relative flex shrink-0 flex-col border-l" initial={{ x: 48 }} animate={{ x: closing ? 28 : 0 }} transition={{ duration: resizing ? 0 : PANEL_MOTION_SECONDS, ease: [0.22, 1, 0.36, 1] }} style={{ width, background: theme.node.panel, borderColor: theme.node.stroke, color: theme.node.text }}>
-        <button type="button" className="absolute inset-y-0 left-0 z-40 w-4 -translate-x-1/2 cursor-col-resize" onMouseDown={startResize} aria-label="调整右侧面板宽度" />
+        <button type="button" className="absolute inset-y-0 left-0 z-40 w-4 -translate-x-1/2 cursor-col-resize" onMouseDown={startResize} aria-label={t("resizePanel")} />
         <div className="flex items-center justify-between border-b px-4 py-3" style={{ borderColor: theme.node.stroke }}>
-          <div className="flex items-center gap-2 text-sm font-medium"><Sparkles className="size-4" />{view === "history" ? "历史记录" : "画布助手(未开发)"}</div>
+          <div className="flex items-center gap-2 text-sm font-medium"><Sparkles className="size-4" />{view === "history" ? t("history") : t("title")}</div>
           <div className="flex items-center gap-1">
             {view === "history" ? (
               <>
-                <Tooltip title="删除选中">
+                <Tooltip title={t("deleteSelected")}>
                   <Button type="text" shape="circle" className="!h-8 !w-8 !min-w-8" style={iconButtonStyle} icon={<Trash2 className="size-4" />} disabled={!checkedChatIds.length} onClick={() => setDeleteChatIds(checkedChatIds)} />
                 </Tooltip>
-                <Tooltip title="删除全部">
+                <Tooltip title={t("deleteAll")}>
                   <Button type="text" shape="circle" className="!h-8 !w-8 !min-w-8" style={iconButtonStyle} icon={<X className="size-4" />} disabled={!historySessions.length} onClick={() => setDeleteChatIds(historySessions.map((session) => session.id))} />
                 </Tooltip>
               </>
             ) : null}
-            <Tooltip title={view === "history" ? "返回对话" : "历史记录"}>
+            <Tooltip title={view === "history" ? t("backToChat") : t("history")}>
               <Button type="text" shape="circle" className="!h-8 !w-8 !min-w-8" style={iconButtonStyle} icon={<History className="size-4" />} onClick={() => setView(view === "history" ? "chat" : "history")} />
             </Tooltip>
-            <Tooltip title="新对话">
+            <Tooltip title={t("newChat")}>
               <Button type="text" shape="circle" className="!h-8 !w-8 !min-w-8" style={iconButtonStyle} icon={<Plus className="size-4" />} disabled={!hasMessages} onClick={() => { startChatSession(); setView("chat"); }} />
             </Tooltip>
-            <Tooltip title="配置">
+            <Tooltip title={t("config")}>
               <Button type="text" shape="circle" className="!h-8 !w-8 !min-w-8" style={iconButtonStyle} icon={<Settings2 className="size-4" />} onClick={() => openConfigDialog(false)} />
             </Tooltip>
-            <Tooltip title="收起对话">
+            <Tooltip title={t("collapsePanel")}>
               <Button type="text" shape="circle" className="!h-8 !w-8 !min-w-8" style={iconButtonStyle} icon={<PanelRightClose className="size-4" />} onClick={collapse} />
             </Tooltip>
           </div>
@@ -305,12 +308,12 @@ export function CanvasAssistantPanel({ nodes, selectedNodeIds, sessions, activeS
         ) : null}
 
         <Modal
-          title="删除对话记录？"
+          title={tDelete("title")}
           open={deleteChatIds.length > 0}
           centered
           onCancel={() => setDeleteChatIds([])}
           footer={<>
-            <Button onClick={() => setDeleteChatIds([])}>取消</Button>
+            <Button onClick={() => setDeleteChatIds([])}>{tDelete("cancel")}</Button>
             <Button
               danger
               type="primary"
@@ -319,11 +322,11 @@ export function CanvasAssistantPanel({ nodes, selectedNodeIds, sessions, activeS
                 setDeleteChatIds([]);
               }}
             >
-              删除
+              {tDelete("confirm")}
             </Button>
           </>}
         >
-          <p className="text-sm opacity-60">将删除 {deleteChatIds.length} 条对话记录，此操作不可撤销。</p>
+          <p className="text-sm opacity-60">{tDelete("description", { count: deleteChatIds.length })}</p>
         </Modal>
       </motion.aside>
     </motion.div>
@@ -358,6 +361,7 @@ function AssistantComposer({
   onPasteImage: (file: File) => void;
 }) {
   const theme = canvasThemes[useThemeStore((state) => state.theme)];
+  const t = useTranslations("canvas.assistant");
 
   return (
     <div className="px-2 pb-2" onWheelCapture={(event) => event.stopPropagation()}>
@@ -383,7 +387,7 @@ function AssistantComposer({
           }}
           className="thin-scrollbar h-20 w-full resize-none border-0 bg-transparent px-1 py-1 text-sm leading-5 outline-none placeholder:text-stone-400"
           style={{ color: theme.node.text }}
-          placeholder={mode === "image" ? "描述你想生成或修改的图片" : "输入你想问的问题"}
+          placeholder={mode === "image" ? t("imagePlaceholder") : t("askPlaceholder")}
         />
         <div className="mt-2 flex items-center justify-between gap-2">
           <div className="flex min-w-0 flex-1 items-center gap-1.5">
@@ -395,8 +399,8 @@ function AssistantComposer({
                 value={mode}
                 onChange={(value) => onModeChange(value as AssistantMode)}
                 options={[
-                  { value: "ask", label: <Tooltip title="文本"><MessageSquare className="size-4" /></Tooltip> },
-                  { value: "image", label: <Tooltip title="生图"><ImageIcon className="size-4" /></Tooltip> },
+                  { value: "ask", label: <Tooltip title={t("textMode")}><MessageSquare className="size-4" /></Tooltip> },
+                  { value: "image", label: <Tooltip title={t("imageMode")}><ImageIcon className="size-4" /></Tooltip> },
                 ]}
               />
             </CanvasThemeProvider>
@@ -406,7 +410,7 @@ function AssistantComposer({
               <ModelPicker config={config} value={config.textModel || config.model} onChange={(model) => onConfigChange("textModel", model)} onMissingConfig={onMissingConfig} />
             )}
           </div>
-          <Button type="primary" shape="circle" className="!h-10 !w-10 !min-w-10 shrink-0" icon={isRunning ? <LoaderCircle className="size-4 animate-spin" /> : <ArrowUp className="size-4" />} disabled={isRunning || !prompt.trim()} onClick={() => void onSubmit()} aria-label="发送" />
+          <Button type="primary" shape="circle" className="!h-10 !w-10 !min-w-10 shrink-0" icon={isRunning ? <LoaderCircle className="size-4 animate-spin" /> : <ArrowUp className="size-4" />} disabled={isRunning || !prompt.trim()} onClick={() => void onSubmit()} aria-label={t("sendLabel")} />
         </div>
       </div>
     </div>
@@ -415,6 +419,7 @@ function AssistantComposer({
 
 function ImageSettingsPopover({ config, onConfigChange, onMissingConfig }: { config: AiConfig; onConfigChange: (key: keyof AiConfig, value: string) => void; onMissingConfig: () => void }) {
   const theme = canvasThemes[useThemeStore((state) => state.theme)];
+  const t = useTranslations("canvas.imageSettings");
   const quality = config.quality || "auto";
   const count = String(Math.max(1, Math.min(15, Math.floor(Math.abs(Number(config.count)) || 1))));
   const sizes = ["1:1", "3:2", "2:3", "16:9", "9:16", "auto"];
@@ -429,30 +434,30 @@ function ImageSettingsPopover({ config, onConfigChange, onMissingConfig }: { con
       content={(
         <CanvasThemeProvider theme={theme}>
           <div className="w-[330px] space-y-4" style={{ color: theme.node.text }} onMouseDown={(event) => event.stopPropagation()}>
-            <div className="text-base font-semibold">图像设置</div>
+            <div className="text-base font-semibold">{t("title")}</div>
             <div className="space-y-1.5">
-              <SettingTitle color={theme.node.muted}>模型</SettingTitle>
+              <SettingTitle color={theme.node.muted}>{t("model")}</SettingTitle>
               <ModelPicker className="!h-9 !w-full !max-w-none" config={config} value={config.imageModel || config.model} onChange={(model) => onConfigChange("imageModel", model)} onMissingConfig={onMissingConfig} fullWidth />
             </div>
             <div className="space-y-1.5">
-              <SettingTitle color={theme.node.muted}>质量</SettingTitle>
-              <Segmented block value={quality} onChange={(value) => onConfigChange("quality", String(value))} options={[{ value: "auto", label: "自动" }, { value: "high", label: "高" }, { value: "medium", label: "中" }, { value: "low", label: "低" }]} />
+              <SettingTitle color={theme.node.muted}>{t("quality")}</SettingTitle>
+              <Segmented block value={quality} onChange={(value) => onConfigChange("quality", String(value))} options={[{ value: "auto", label: t("qualityAuto") }, { value: "high", label: t("qualityHigh") }, { value: "medium", label: t("qualityMedium") }, { value: "low", label: t("qualityLow") }]} />
             </div>
             <div className="space-y-1.5">
-              <SettingTitle color={theme.node.muted}>宽高比</SettingTitle>
+              <SettingTitle color={theme.node.muted}>{t("aspectRatio")}</SettingTitle>
               <div className="grid grid-cols-4 gap-1.5">
                 {sizes.map((size) => (
                   <Button key={size} size="small" type={(config.size || "auto") === size ? "primary" : "default"} className="!h-7 !rounded-md !px-1.5" onClick={() => onConfigChange("size", size)}>
                     {size}
                   </Button>
                 ))}
-                <Input size="small" className="col-span-2 !h-7" placeholder="自定义比例" value={customSize} onChange={(event) => onConfigChange("size", event.target.value.trim() || "auto")} />
+                <Input size="small" className="col-span-2 !h-7" placeholder={t("customRatio")} value={customSize} onChange={(event) => onConfigChange("size", event.target.value.trim() || "auto")} />
               </div>
             </div>
             <div className="space-y-1.5">
-              <SettingTitle color={theme.node.muted}>生成数量</SettingTitle>
+              <SettingTitle color={theme.node.muted}>{t("count")}</SettingTitle>
               <div className="grid grid-cols-[minmax(0,1fr)_92px] gap-2">
-                <Segmented block value={["1", "2", "3", "4"].includes(count) ? count : undefined} onChange={(value) => onConfigChange("count", String(value))} options={["1", "2", "3", "4"].map((value) => ({ value, label: `${value} 张` }))} />
+                <Segmented block value={["1", "2", "3", "4"].includes(count) ? count : undefined} onChange={(value) => onConfigChange("count", String(value))} options={["1", "2", "3", "4"].map((value) => ({ value, label: t("countUnit", { count: value }) }))} />
                 <InputNumber min={1} max={15} size="small" className="canvas-control-number !h-8 !w-full" value={Number(count)} onChange={(value) => onConfigChange("count", String(value || 1))} />
               </div>
             </div>
@@ -461,7 +466,7 @@ function ImageSettingsPopover({ config, onConfigChange, onMissingConfig }: { con
       )}
     >
       <Button size="small" type="text" className="!h-8 !max-w-[180px] !justify-start !rounded-full !px-2.5" style={{ background: theme.node.fill, color: theme.node.text }} icon={<Settings2 className="size-3.5" />}>
-        <span className="truncate">{qualityLabel(quality)} · {config.size || "auto"} · {count} 张</span>
+        <span className="truncate">{qualityLabel(quality)} · {config.size || "auto"} · {t("countUnit", { count })}</span>
       </Button>
     </Popover>
   );
@@ -495,27 +500,28 @@ function AssistantMessages({
   onInsertText: (text: string) => void;
 }) {
   const theme = canvasThemes[useThemeStore((state) => state.theme)];
+  const t = useTranslations("canvas.assistant");
 
   return (
     <>
       {messages.map((message) => (
         <div key={message.id} className={cn("flex flex-col gap-2", message.role === "user" ? "items-end" : "items-start")}>
           <div className="max-w-[88%] whitespace-pre-wrap rounded-2xl px-3 py-2 text-sm leading-6" style={message.role === "user" ? { background: theme.toolbar.activeBg, color: theme.toolbar.activeText } : { background: theme.node.fill, color: theme.node.text }}>
-            {message.role === "assistant" ? <div className="mb-1 flex items-center gap-1.5 text-xs opacity-60"><MessageSquare className="size-3.5" />回答</div> : null}
+            {message.role === "assistant" ? <div className="mb-1 flex items-center gap-1.5 text-xs opacity-60"><MessageSquare className="size-3.5" />{t("answer")}</div> : null}
             {message.text}
           </div>
           {message.references?.length ? <MessageReferences message={message} /> : null}
-          {message.isLoading ? <ImageGenerationPending compact label={message.mode === "image" ? "正在生成图片" : "正在回答"} className="w-[250px] rounded-2xl border" /> : null}
+          {message.isLoading ? <ImageGenerationPending compact label={message.mode === "image" ? t("generatingImage") : t("answering")} className="w-[250px] rounded-2xl border" /> : null}
           {message.role === "assistant" && !message.isLoading ? (
             <div className="flex gap-1">
-              <Button shape="circle" size="small" style={{ borderColor: theme.node.stroke }} icon={<RotateCcw className="size-3.5" />} onClick={() => onRetry(message)} title="重试" />
-              {!message.images?.length ? <Button shape="circle" size="small" style={{ borderColor: theme.node.stroke }} icon={<Plus className="size-3.5" />} onClick={() => onInsertText(message.text)} title="插入画布" /> : null}
+              <Button shape="circle" size="small" style={{ borderColor: theme.node.stroke }} icon={<RotateCcw className="size-3.5" />} onClick={() => onRetry(message)} title={t("retry")} />
+              {!message.images?.length ? <Button shape="circle" size="small" style={{ borderColor: theme.node.stroke }} icon={<Plus className="size-3.5" />} onClick={() => onInsertText(message.text)} title={t("insertToCanvas")} /> : null}
             </div>
           ) : null}
           {message.images?.map((image) => (
             <div key={image.id} className="w-[250px] overflow-hidden rounded-2xl border" style={{ background: theme.node.panel, borderColor: theme.node.stroke }}>
               <img src={image.dataUrl} alt="" className="aspect-square w-full object-cover" />
-              <Button type="text" className="!h-8 !w-full !rounded-none" style={{ borderTop: `1px solid ${theme.node.stroke}`, color: theme.node.text }} icon={<Plus className="size-3.5" />} onClick={() => onInsertImage(image)} title="插入画布" />
+              <Button type="text" className="!h-8 !w-full !rounded-none" style={{ borderTop: `1px solid ${theme.node.stroke}`, color: theme.node.text }} icon={<Plus className="size-3.5" />} onClick={() => onInsertImage(image)} title={t("insertToCanvas")} />
             </div>
           ))}
         </div>
@@ -540,6 +546,7 @@ function AssistantHistory({
   onDelete: (id: string) => void;
 }) {
   const theme = canvasThemes[useThemeStore((state) => state.theme)];
+  const t = useTranslations("canvas.assistant");
 
   return (
     <div className="space-y-1">
@@ -548,9 +555,9 @@ function AssistantHistory({
           <input type="checkbox" className="size-4 accent-stone-950" checked={checkedIds.includes(session.id)} onChange={(event) => onToggleChecked(session.id, event.target.checked)} />
           <button type="button" className="min-w-0 flex-1 text-left text-sm" onClick={() => onOpen(session.id)}>
             <span className="block truncate">{session.title}</span>
-            <span className="text-xs opacity-50">{session.messages.length} 条消息</span>
+            <span className="text-xs opacity-50">{t("messagesCount", { count: session.messages.length })}</span>
           </button>
-          <Button type="text" shape="circle" size="small" className="opacity-0 transition group-hover:opacity-100" icon={<Trash2 className="size-3.5" />} onClick={() => onDelete(session.id)} title="删除" />
+          <Button type="text" shape="circle" size="small" className="opacity-0 transition group-hover:opacity-100" icon={<Trash2 className="size-3.5" />} onClick={() => onDelete(session.id)} title={t("deleteSelected")} />
         </div>
       ))}
     </div>
@@ -567,12 +574,13 @@ function MessageReferences({ message }: { message: CanvasAssistantMessage }) {
 
 function AssistantReferenceChip({ item, onRemove }: { item: CanvasAssistantReference; onRemove?: () => void }) {
   const theme = canvasThemes[useThemeStore((state) => state.theme)];
+  const t = useTranslations("canvas.assistant");
   const text = (item.text || item.title).replace(/\s+/g, " ").trim().slice(0, 1) || "文";
   return (
     <div className="group/chip relative inline-flex h-8 max-w-[150px] shrink-0 items-center gap-1.5 rounded-lg text-sm" style={{ color: theme.node.text }}>
       {item.dataUrl ? <img src={item.dataUrl} alt="" className="size-8 rounded-lg object-cover" /> : <span className="grid size-8 place-items-center rounded-lg border text-sm font-medium" style={{ background: theme.node.panel, borderColor: theme.node.activeStroke }}>{text}</span>}
       {onRemove ? (
-        <button type="button" className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full border opacity-0 shadow-sm transition group-hover/chip:opacity-100" style={{ background: theme.toolbar.panel, borderColor: theme.node.stroke }} onClick={onRemove} aria-label="移除引用">
+        <button type="button" className="absolute -right-1 -top-1 grid size-4 place-items-center rounded-full border opacity-0 shadow-sm transition group-hover/chip:opacity-100" style={{ background: theme.toolbar.panel, borderColor: theme.node.stroke }} onClick={onRemove} aria-label={t("removeReference")}>
           <X className="size-3" />
         </button>
       ) : null}

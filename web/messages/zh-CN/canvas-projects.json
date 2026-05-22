@@ -1,0 +1,14 @@
+{
+  "libraryLabel": "画布库",
+  "title": "无限画布",
+  "newCanvas": "新建画布",
+  "deleteSelected": "删除选中",
+  "deleteAll": "删除全部",
+  "importCanvas": "导入画布",
+  "importSuccess": "画布已导入",
+  "importError": "导入失败，请选择有效的 JSON 文件",
+  "loading": "正在加载画布...",
+  "emptyTitle": "还没有画布",
+  "emptyDescription": "新建一个画布后，就可以独立保存节点、连线和画布外观。",
+  "defaultName": "无限画布 {index}"
+}

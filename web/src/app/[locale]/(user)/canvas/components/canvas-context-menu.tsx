@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { Plus, Trash2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { canvasThemes } from "@/lib/canvas-theme";
 import { useThemeStore } from "@/stores/use-theme-store";
@@ -20,6 +21,7 @@ export function CanvasNodeContextMenu({
   onDelete: () => void;
 }) {
   const theme = canvasThemes[useThemeStore((state) => state.theme)];
+  const t = useTranslations("canvas.contextMenu");
 
   useEffect(() => {
     const close = (event: PointerEvent) => {
@@ -37,8 +39,8 @@ export function CanvasNodeContextMenu({
       style={{ left: menu.x, top: menu.y, background: theme.toolbar.panel, borderColor: theme.toolbar.border, color: theme.node.text }}
       onPointerDown={(event) => event.stopPropagation()}
     >
-      <MenuButton icon={<Plus className="size-4" />} label="Duplicate" onClick={onDuplicate} />
-      <MenuButton icon={<Trash2 className="size-4" />} label="Delete" onClick={onDelete} danger />
+      <MenuButton icon={<Plus className="size-4" />} label={t("duplicate")} onClick={onDuplicate} />
+      <MenuButton icon={<Trash2 className="size-4" />} label={t("delete")} onClick={onDelete} danger />
     </div>
   );
 }

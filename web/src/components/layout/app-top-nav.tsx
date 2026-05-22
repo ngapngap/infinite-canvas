@@ -3,6 +3,7 @@
 import { Menu, Settings2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { navigationTools, type NavigationToolSlug } from "@/constant/navigation-tools";
@@ -19,6 +20,7 @@ import { useState } from "react";
 
 export function AppTopNav() {
   const pathname = usePathname();
+  const t = useTranslations("nav");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const openConfigDialog = useConfigStore((state) => state.openConfigDialog);
   const theme = useThemeStore((state) => state.theme);
@@ -46,15 +48,15 @@ export function AppTopNav() {
                     WebkitMask: "url(/logo.svg) center / contain no-repeat",
                   }}
                 />
-                <span className="text-base font-medium">无限画布</span>
+                <span className="text-base font-medium">{t("brand")}</span>
               </Link>
 
               <button
                 type="button"
                 className="ml-3 inline-flex size-8 shrink-0 items-center justify-center text-stone-600 transition hover:text-stone-950 md:hidden dark:text-stone-300 dark:hover:text-white"
                 onClick={() => setMobileNavOpen(true)}
-                aria-label="打开导航菜单"
-                title="导航菜单"
+                aria-label={t("openNavMenu")}
+                title={t("navMenu")}
               >
                 <Menu className="size-5" />
               </button>
@@ -75,7 +77,7 @@ export function AppTopNav() {
                       )}
                     >
                       <Icon className="size-4" />
-                      <span className="truncate">{tool.label}</span>
+                      <span className="truncate">{t(tool.labelKey)}</span>
                     </Link>
                   );
                 })}
@@ -91,8 +93,8 @@ export function AppTopNav() {
                     type="button"
                     className="inline-flex size-8 shrink-0 items-center justify-center text-stone-600 transition hover:text-stone-950 dark:text-stone-300 dark:hover:text-white [&_svg]:size-4"
                     onClick={() => openConfigDialog(false)}
-                    aria-label="配置"
-                    title="配置"
+                    aria-label={t("config")}
+                    title={t("config")}
                   >
                     <Settings2 className="size-4" />
                   </button>
@@ -100,13 +102,13 @@ export function AppTopNav() {
                     theme={theme}
                     onThemeChange={setTheme}
                     className="inline-flex size-8 shrink-0 items-center justify-center text-stone-600 transition hover:text-stone-950 dark:text-stone-300 dark:hover:text-white [&_svg]:size-4"
-                    aria-label={theme === "dark" ? "切换到浅色主题" : "切换到深色主题"}
-                    title={theme === "dark" ? "切换到浅色主题" : "切换到深色主题"}
+                    aria-label={theme === "dark" ? t("switchToLight") : t("switchToDark")}
+                    title={theme === "dark" ? t("switchToLight") : t("switchToDark")}
                   />
                   <VersionReleaseModal />
                   <GitHubLink />
                   <Link href="/login" className="text-sm font-medium text-stone-600 underline-offset-4 transition hover:text-stone-950 hover:underline dark:text-stone-300 dark:hover:text-stone-100">
-                    登录
+                    {t("login")}
                   </Link>
                 </>
               )}

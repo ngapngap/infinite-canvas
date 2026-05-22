@@ -1,0 +1,5 @@
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: sh -c "PORT=8080 /app/server & cd /app/web && HOSTNAME=0.0.0.0 PORT=3000 bun run start"

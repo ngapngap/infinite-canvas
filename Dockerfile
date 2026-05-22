@@ -1,15 +1,15 @@
-# 构建 Next.js 前端产物。
+# ?? Next.js ?????
 FROM oven/bun:1.3.13 AS web-build
 
 WORKDIR /app/web
 COPY web/package.json web/bun.lock ./
-RUN --mount=type=cache,target=/root/.bun/install/cache bun install --registry=https://registry.npmmirror.com --cache-dir=/root/.bun/install/cache
+RUN bun install --registry=https://registry.npmmirror.com
 COPY VERSION /app/VERSION
 COPY CHANGELOG.md /app/CHANGELOG.md
 COPY web ./
 RUN bun run build
 
-# 构建 Go 后端入口。
+# ?? Go ?????
 FROM golang:1.25-alpine AS api-build
 
 WORKDIR /app
@@ -24,7 +24,7 @@ COPY service ./service
 COPY main.go ./
 RUN go build -o /server .
 
-# 运行镜像：Next.js 对外监听 3000，Go 只在容器内部监听 8080。
+# ????:Next.js ???? 3000,Go ???????? 8080?
 FROM oven/bun:1.3.13
 
 WORKDIR /app
@@ -37,5 +37,5 @@ RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates
 RUN mkdir -p /app/data/prompts
 
 EXPOSE 3000
-# 先启动内部 Go API，再由 Next.js 提供页面并代理 /api/*。
+# ????? Go API,?? Next.js ??????? /api/*?
 CMD ["sh", "-c", "PORT=8080 /app/server & cd /app/web && HOSTNAME=0.0.0.0 PORT=3000 bun run start"]

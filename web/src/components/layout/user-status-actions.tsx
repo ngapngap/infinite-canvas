@@ -7,6 +7,7 @@ import type { ItemType } from "antd/es/menu/interface";
 import Link from "next/link";
 
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import { FEATURES } from "@/config/features";
 import { cn } from "@/lib/utils";
 import { canvasThemes } from "@/lib/canvas-theme";
 import { useConfigStore } from "@/stores/use-config-store";
@@ -45,7 +46,8 @@ export function UserStatusActions({
   const avatarStyle: CSSProperties | undefined = variant === "canvas" ? { borderColor: canvasTheme.toolbar.border, color: canvasTheme.node.text } : undefined;
   const menuItems: ItemType[] = [
     { key: "user", disabled: true, label: <span className="font-medium text-current">{userName}</span> },
-    ...(user?.role === "admin" ? [{ key: "admin", icon: <Shield className="size-4" />, label: <Link href="/admin">Quản trị</Link> }] : []),
+    // CUSTOM: admin entry gated by NEXT_PUBLIC_SHOW_ADMIN_ENTRY
+    ...(FEATURES.showAdminEntry && user?.role === "admin" ? [{ key: "admin", icon: <Shield className="size-4" />, label: <Link href="/admin">Quản trị</Link> }] : []),
     ...(onOpenShortcuts ? [{ key: "shortcuts", icon: <Keyboard className="size-4" />, label: "Phím tắt", onClick: onOpenShortcuts }] : []),
     { type: "divider" },
     { key: "logout", icon: <LogOut className="size-4" />, label: "Đăng xuất", onClick: logout },

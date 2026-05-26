@@ -20,3 +20,6 @@ services:
         value: sqlite
       - key: DATABASE_DSN
         value: data/infinite-canvas.db
+      # CUSTOM: hide admin entry in production unless flipped to "true"
+      - key: NEXT_PUBLIC_SHOW_ADMIN_ENTRY
+        value: "false"
